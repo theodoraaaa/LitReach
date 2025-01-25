@@ -193,11 +193,16 @@ ui <- dashboardPage(
       tabItem(
         tabName = "researchoutput",
         fluidRow(
-          column(1)),
+          column(1)
+          ),
         fluidRow(  
           column(2),
           column(9,
-        withSpinner(plotOutput("primaryplot")),
+        withSpinner(plotOutput("primaryplot"))
+          ),
+        fluidRow(
+          column(2,
+                 downloadButton("downloadPlot", "Download Plot")),
           ),
         ),
       ),
@@ -207,7 +212,8 @@ ui <- dashboardPage(
           column(12,
                  withSpinner(wordcloud2Output("word_cloud")),
                  p("*Top 200 words form the titles of the papers citing IID1 and IID2 output."),
-          )
+          ),
+          downloadButton("saveword", "Download word cloud"),
         ),
         fluidRow(
           br()
@@ -228,11 +234,14 @@ ui <- dashboardPage(
                    HTML('&emsp;'), strong("P:"), HTML('&nbsp;'), "Patent", HTML('&emsp;'), strong("CP:"), HTML('&nbsp;'), "Conference Proceedings", HTML('&emsp;'), strong("UK:"), HTML('&nbsp;'), "Unknown"),
                  p("Note that without data from Google Scholar the second figure on tab three will only show journal articles as the data from the 
                    other sources do not extend past journal articles into grey literature."),
-          )
+          ),
+          downloadButton("tree1", "Download literature sources tree diagram"),
         ),
         fluidRow(
           withSpinner(plotlyOutput("timecs")),
+          downloadButton("download_timecs", "Download citations over time plot"),
           withSpinner(plotlyOutput("timepy")),
+          downloadButton("download_timepy", "Download citations by year plot")
         )
       ),
       tabItem(
@@ -245,6 +254,7 @@ ui <- dashboardPage(
         actionButton("DataTable", "View Data as a Table", icon = icon("table")),
         bsModal("mapdatamodal", "Map Data as Table", "DataTable", size = "large", dataTableOutput("maptbl"), 
                 downloadButton("downloadtable", "Download")),
+        downloadButton("download_map", "Download map"),
       ),
       tabItem(
         tabName = "FAQ",
@@ -294,6 +304,8 @@ server <- function(input, output) {
       write_csv(primarytemp, file)
     }
   )
+  
+  set.seed(1234)
   
   #### Tidy Data ####
   
@@ -669,14 +681,75 @@ observeEvent(input$tidy, {
         guides(fill = guide_legend(nrow = 3)), height = 800, width = 1200
   )
 
-  output$word_cloud <- renderWordcloud2({
-    
+  output$downloadPlot <- downloadHandler(
+    filename = function() {
+      paste("Research outputs", ".png", sep = "")
+    },
+    content = function(file) {
+      # Save the plot to the specified file
+      ggsave(file, plot = last_plot(), device = "png")
+    }
+  )
+
+  # # Example of using reactiveFileReader to monitor an external file
+  # file_path <- "Citation Data.csv"
+  # 
+  # # Reactively read the file when it changes
+  # impdata <- reactiveFileReader(
+  #   intervalMillis = 1000,  # Check the file every 1 second for changes
+  #   filePath = file_path,
+  #   readFunc = function() {
+  #     read.csv(file_path)  # Adjust this based on how your data is structured
+  #   }
+  # )
+  # 
+  # # Generate the word cloud reactively based on impdata
+  # wordcl <- reactive({
+  #   terms <- termscreate(impdata())
+  #   set.seed(1234)  # Ensure reproducibility
+  #   wordcloud2(terms)
+  # })
+  # 
+  # # Render the word cloud in the UI
+  # output$word_cloud <- renderWordcloud2({
+  #   wordcl()
+  # })
+  # 
+  # # Save the word cloud to a file on download
+  # output$saveword <- downloadHandler(
+  #   filename = "wordcloud.html",
+  #   content = function(file) {
+  #     saveWidget(
+  #       widget = wordcl(),  # Reuse the reactive word cloud
+  #       file = file
+  #     )
+  #   }
+  # )
+  
+  #Store the word cloud in a reactiveValues object
+  values <- reactiveValues(wordcloud = NULL)
+
+  #Generate word cloud once and store it
+  observe({
     terms <- termscreate(impdata())
-    
-    wordcloud2(terms)
-    
+    set.seed(1234)  # Ensure reproducibility
+    values$wordcloud <- wordcloud2(terms)
   })
 
+  output$word_cloud <- renderWordcloud2({
+    values$wordcloud
+  })
+
+  output$saveword <- downloadHandler(
+    filename = "wordcloud.html",
+    content = function(file){
+      saveWidget(
+        widget = values$wordcloud,
+        file = file
+      )
+    }
+  )
+  
   #Tab3- Tree Diagrams
   output$tree1 <- renderPlotly(
     #Plotly tree diagram
@@ -697,27 +770,39 @@ observeEvent(input$tidy, {
   )
 
   #Tab 3- Citations Over Time
-  output$timecs <- renderPlotly({
+  
+  plot_timecs <- reactive({ 
     impdata() %>% 
-      mutate(number =  1) %>% 
-      group_by(year) %>% 
-      summarise(cpy = sum(number)) %>% 
-      mutate(ccs = cumsum(cpy)) %>% 
-      ungroup() %>% 
-      ggplot(aes(x = year, y = ccs)) +
-      geom_point() +
-      geom_line() +
-      scale_x_continuous(name = "Year") +
-      scale_y_continuous(name = "Citations over Time") +
-      theme_bw() +
-      theme(text = element_text(size = 16)) 
+    mutate(number =  1) %>% 
+    group_by(year) %>% 
+    summarise(cpy = sum(number)) %>% 
+    mutate(ccs = cumsum(cpy)) %>% 
+    ungroup() %>% 
+    ggplot(aes(x = year, y = ccs)) +
+    geom_point() +
+    geom_line() +
+    scale_x_continuous(name = "Year") +
+    scale_y_continuous(name = "Citations over Time") +
+    theme_bw() +
+    theme(text = element_text(size = 16)) 
+  })
+  
+  output$timecs <- renderPlotly({
     
-      ggplotly(source = "timecs")
+    plot_timecs()
+    ggplotly(source = "timecs")
 
   })
 
-  output$timepy <- renderPlotly({
-    
+  output$download_timecs <- downloadHandler(
+    filename = function() { paste("citations_time", '.png', sep='') },
+    content = function(file) {
+      ggsave(file,  plot=plot_timecs(), width = 500, height = 200, units = "mm", device = "png")
+    }
+  )
+  
+  
+  plot_timepy <- reactive({ 
     impdata() %>% 
       mutate(number =  1) %>% 
       group_by(year) %>% 
@@ -732,14 +817,33 @@ observeEvent(input$tidy, {
       theme_bw() +
       theme(text = element_text(size = 16))
     
+  })
+  
+  output$timepy <- renderPlotly({
+    
+      plot_timepy()
       ggplotly(source = "timepy")
 
   })
   
+  output$download_timepy <- downloadHandler(
+    filename = function() { paste("citations_year", '.png', sep='') },
+    content = function(file) {
+      ggsave(file,  plot=plot_timepy(), width = 500, height = 200, units = "mm", device = "png")
+    }
+  )
+  
   #Tab 4- Map
+  
+  map_plot <- reactive({
+    
+    to.choropleth(worlddataplot(impdata(), world), world, worldplots(impdata(), world))
+    
+  }) 
+  
   output$map <- renderLeaflet(
 
-    to.choropleth(worlddataplot(impdata(), world), world, worldplots(impdata(), world))
+    map_plot()
 
   )
   
@@ -759,8 +863,27 @@ observeEvent(input$tidy, {
     }
   )
   
-}
+  output$download_map <- downloadHandler(
+    filename = function() {
+      paste("map", ".html", sep = "")
+    },
+    content = function(file) {
+      saveWidget(map_plot(), file)  # Ensure you're passing the reactive map here
+    }
+  )
+  
 
+
+# map_download <- downloadHandler(
+#   filename = "map.html",
+#   content = function(file){
+#     saveWidget(widget = map_plot(), 
+#       file = file
+#     )
+#   }
+# )
+
+}
 
 # Run the application 
 shinyApp(ui = ui, server = server)
