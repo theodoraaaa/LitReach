@@ -109,7 +109,7 @@ ui <- dashboardPage(
                    data that are included, the better the outputs will be. Unfortunately, Google Scholar currently does not have a mass download 
                    function for citations, so you will have to use the Publish or Perish software (link below) and we have included a video tutorial 
                    for using this software."),
-                 tags$a(href="https://harzing.com/resources/publish-or-perish/windows", "Link to the Publish or Perish Website"),
+                 tags$a(href="https://harzing.com/resources/publish-or-perish", "Link to the Publish or Perish Website"),
                  br(),
                  br(),
                  actionButton("PubMed", "Watch PubMed Guide"),
