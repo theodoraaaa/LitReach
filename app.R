@@ -21,6 +21,7 @@ library(tm)
 library(SnowballC)
 library(wordcloud2)
 library(RColorBrewer)
+library(randomcoloR)
 
 library(plotly)
 
@@ -115,6 +116,7 @@ ui <- dashboardPage(
                  actionButton("PubMed", "Watch PubMed Guide", icon = icon("play-circle")),
                  actionButton("Scopus", "Watch Scopus Guide", icon = icon("play-circle")),
                  actionButton("WebofScience", "Watch Web of Science Guide", icon = icon("play-circle")),
+                 actionButton("PoP", "Watch Publish or Perish Guide", icon = icon("play-circle")), #########################
                  bsModal("PubMedVid", "Watch the PubMed Guide", "PubMed", size = "large", tags$iframe(src = "PubMed.mp4", height = "900", width = "100%"), tags$body(p("PubMed:"), 
                                                                                                                                                                   p("1. For your selected article, scroll down to the end of the 'Cited by' section and select 'See all Cited by articles'"),
                                                                                                                                                                   p("2. Press 'Save' and select 'All results' and 'CSV' from the drop-down menus"), 
@@ -130,6 +132,11 @@ ui <- dashboardPage(
                                                                                                                                                                                        p("2. Select 'All' and press 'Export' at the top of the page"), 
                                                                                                                                                                                        p("3. Select 'CSV' as your method of export and ensure that both Citation information and Bibliographical information are selected and press 'Export'"),
                                                                                                                                                                                        p("4. Save your .csv file"))),
+                 bsModal("PoPVid", "Watch the Publish or Perish Guide", "PoP", size = "large", tags$iframe(src = "PoP.mp4", height = "900", width = "100%"),tags$body(p("Publish or Perish:"),  ####################################
+                                                                                                                                                                                       p("1. Start a new google scholar search in Puplish or Perish"),#################################
+                                                                                                                                                                                       p("2. Typoe in the title into the 'Title Words' field"), ############################
+                                                                                                                                                                                       p("3. Right click on the desired paper and select 'Retrieve Citing Working in Publish or Perish'"),#####################################
+                                                                                                                                                                                       p("4. On the right click 'Save Results' and then click the 'Results as CSV...' option"))),##################################
                  br(),
                  br(),
                  p(strong("Step 2:"), "Create a .csv file containing the information about your primary reference (the references you are examining).
@@ -193,11 +200,36 @@ ui <- dashboardPage(
       tabItem(
         tabName = "researchoutput",
         fluidRow(
-          column(1)),
+          column(1)
+          ),
         fluidRow(  
-          column(2),
           column(9,
-        withSpinner(plotOutput("primaryplot")),
+                  withSpinner(plotOutput("primaryplot"))
+          ),
+        fluidRow(
+          column(9,
+                 br(),#####################################
+                 br(),#####################################
+                 br(),#####################################
+                 br(),#####################################
+                 br(),#####################################
+                 br(),#####################################
+                 br(),#####################################
+                 br(),#####################################
+                 br(),#####################################
+                 br(),#####################################
+                 br(),#####################################
+                 br(),#####################################
+                 br(),#####################################
+                 br(),#####################################
+                 br(),#####################################
+                 br(),#####################################
+                 br(),#####################################
+                 br(),#####################################
+                 br(),#####################################
+                 br(),#####################################
+                 br(),#####################################
+                 downloadButton("downloadPlot", "Download Plot")),
           ),
         ),
       ),
@@ -207,7 +239,8 @@ ui <- dashboardPage(
           column(12,
                  withSpinner(wordcloud2Output("word_cloud")),
                  p("*Top 200 words form the titles of the papers citing IID1 and IID2 output."),
-          )
+          ),
+          downloadButton("saveword", "Download word cloud"),
         ),
         fluidRow(
           br()
@@ -218,9 +251,7 @@ ui <- dashboardPage(
           )
         ),
         fluidRow(
-          column(1,
-          ),
-          column(10,
+          column(12,
                  textOutput("legend"),
                  p(strong("JA:"), HTML('&nbsp;'), "Journal Article", HTML('&emsp;'), strong("A:"), HTML('&nbsp;'), "Article", HTML('&emsp;'), strong("GR:"), HTML('&nbsp;'), "Government Report",
                    HTML('&emsp;'), strong("NR:"), HTML('&nbsp;'), "Non-Governmental Report", HTML('&emsp;'), strong("B:"), HTML('&nbsp;'), "Book", HTML('&emsp;'),
@@ -228,11 +259,16 @@ ui <- dashboardPage(
                    HTML('&emsp;'), strong("P:"), HTML('&nbsp;'), "Patent", HTML('&emsp;'), strong("CP:"), HTML('&nbsp;'), "Conference Proceedings", HTML('&emsp;'), strong("UK:"), HTML('&nbsp;'), "Unknown"),
                  p("Note that without data from Google Scholar the second figure on tab three will only show journal articles as the data from the 
                    other sources do not extend past journal articles into grey literature."),
-          )
+          ),
+          downloadButton("treedownload", "Download literature sources tree diagram"), ############################################
+          br(), #######################
         ),
         fluidRow(
           withSpinner(plotlyOutput("timecs")),
+          downloadButton("download_timecs", "Download citations over time plot"),
+          br(), #####################################
           withSpinner(plotlyOutput("timepy")),
+          downloadButton("download_timepy", "Download citations by year plot")
         )
       ),
       tabItem(
@@ -245,6 +281,7 @@ ui <- dashboardPage(
         actionButton("DataTable", "View Data as a Table", icon = icon("table")),
         bsModal("mapdatamodal", "Map Data as Table", "DataTable", size = "large", dataTableOutput("maptbl"), 
                 downloadButton("downloadtable", "Download")),
+        downloadButton("download_map", "Download map"),
       ),
       tabItem(
         tabName = "FAQ",
@@ -270,11 +307,11 @@ ui <- dashboardPage(
                  p(strong("Why do some of the reseatch outputs have 0 in some of the catagories?"), style = "font-size:18px"),
                  p("The research output metrics were collected from the publishers. Not all publishers collect the same metric data so the data displayed here is what was available.", style = "font-size:16px"),
                  br(),
-                 p(strong("Why are there fewer boxes then the number of citations views etc?"), style = "font-size:18px"),
+                 p(strong("Why are there fewer boxes then the number of citations, views etc?"), style = "font-size:18px"),
                  p("To make them viewable in the waffle plot the metrics were divided by 5.", style = "font-size:16px"),
                  br(),
                  p(strong("When was the app last updated?"), style = "font-size:18px"),
-                 p("01/11/2024", style = "font-size:16px")
+                 p("31/01/2025", style = "font-size:16px")
           )
         )
       )
@@ -294,6 +331,8 @@ server <- function(input, output) {
       write_csv(primarytemp, file)
     }
   )
+  
+  set.seed(1234)
   
   #### Tidy Data ####
   
@@ -669,14 +708,76 @@ observeEvent(input$tidy, {
         guides(fill = guide_legend(nrow = 3)), height = 800, width = 1200
   )
 
-  output$word_cloud <- renderWordcloud2({
-    
+  output$downloadPlot <- downloadHandler(
+    filename = function() {
+      paste("Research outputs", ".png", sep = "")
+    },
+    content = function(file) {
+      # Save the plot to the specified file
+      ggsave(file, plot = last_plot(), device = "png")
+    }
+  )
+
+  # # Example of using reactiveFileReader to monitor an external file
+  # file_path <- "Citation Data.csv"
+  # 
+  # # Reactively read the file when it changes
+  # impdata <- reactiveFileReader(
+  #   intervalMillis = 1000,  # Check the file every 1 second for changes
+  #   filePath = file_path,
+  #   readFunc = function() {
+  #     read.csv(file_path)  # Adjust this based on how your data is structured
+  #   }
+  # )
+  # 
+  # # Generate the word cloud reactively based on impdata
+  # wordcl <- reactive({
+  #   terms <- termscreate(impdata())
+  #   set.seed(1234)  # Ensure reproducibility
+  #   wordcloud2(terms)
+  # })
+  # 
+  # # Render the word cloud in the UI
+  # output$word_cloud <- renderWordcloud2({
+  #   wordcl()
+  # })
+  # 
+  # # Save the word cloud to a file on download
+  # output$saveword <- downloadHandler(
+  #   filename = "wordcloud.html",
+  #   content = function(file) {
+  #     saveWidget(
+  #       widget = wordcl(),  # Reuse the reactive word cloud
+  #       file = file
+  #     )
+  #   }
+  # )
+  
+  #Store the word cloud in a reactiveValues object
+  values <- reactiveValues(wordcloud = NULL)
+
+  #Generate word cloud once and store it
+  observe({
+    set.seed(1234)  # Ensure reproducibility #################################
+    colours <- randomColor(200) #################################
     terms <- termscreate(impdata())
-    
-    wordcloud2(terms)
-    
+    values$wordcloud <- wordcloud2(terms, color = colours) #######################################
   })
 
+  output$word_cloud <- renderWordcloud2({
+    values$wordcloud
+  })
+
+  output$saveword <- downloadHandler(
+    filename = "wordcloud.html",
+    content = function(file){
+      saveWidget(
+        widget = values$wordcloud,
+        file = file
+      )
+    }
+  )
+  
   #Tab3- Tree Diagrams
   output$tree1 <- renderPlotly(
     #Plotly tree diagram
@@ -695,29 +796,62 @@ observeEvent(input$tidy, {
       layout(legend = TRUE)
 
   )
+  
+  output$treedownload <- downloadHandler( ################################
+    filename = "tree.html", ################################
+    content = function(file){ ################################
+      saveWidget( ################################
+        widget = impdata() %>% ################################
+          group_by(type) %>% ################################
+          summarise(count = n()) %>% ################################
+          ungroup() %>% ################################
+          plot_ly( ################################
+            type='treemap', ################################
+            labels=.$type, ################################
+            parents = "", ################################
+            values = .$count, ################################
+            marker = list(colors = brewer.pal(9, "Set3")), ################################
+            domain=list(column=0)) %>% ################################
+          layout(legend = TRUE), ################################
+        file = file ################################
+      ) ################################
+    } ################################
+  ) ################################
 
   #Tab 3- Citations Over Time
-  output$timecs <- renderPlotly({
+  
+  plot_timecs <- reactive({ 
     impdata() %>% 
-      mutate(number =  1) %>% 
-      group_by(year) %>% 
-      summarise(cpy = sum(number)) %>% 
-      mutate(ccs = cumsum(cpy)) %>% 
-      ungroup() %>% 
-      ggplot(aes(x = year, y = ccs)) +
-      geom_point() +
-      geom_line() +
-      scale_x_continuous(name = "Year") +
-      scale_y_continuous(name = "Citations over Time") +
-      theme_bw() +
-      theme(text = element_text(size = 16)) 
+    mutate(number =  1) %>% 
+    group_by(year) %>% 
+    summarise(cpy = sum(number)) %>% 
+    mutate(ccs = cumsum(cpy)) %>% 
+    ungroup() %>% 
+    ggplot(aes(x = year, y = ccs)) +
+    geom_point() +
+    geom_line() +
+    scale_x_continuous(name = "Year") +
+    scale_y_continuous(name = "Citations over Time") +
+    theme_bw() +
+    theme(text = element_text(size = 16)) 
+  })
+  
+  output$timecs <- renderPlotly({
     
-      ggplotly(source = "timecs")
+    plot_timecs()
+    ggplotly(source = "timecs")
 
   })
 
-  output$timepy <- renderPlotly({
-    
+  output$download_timecs <- downloadHandler(
+    filename = function() { paste("citations_time", '.png', sep='') },
+    content = function(file) {
+      ggsave(file,  plot=plot_timecs(), width = 500, height = 200, units = "mm", device = "png")
+    }
+  )
+  
+  
+  plot_timepy <- reactive({ 
     impdata() %>% 
       mutate(number =  1) %>% 
       group_by(year) %>% 
@@ -732,14 +866,33 @@ observeEvent(input$tidy, {
       theme_bw() +
       theme(text = element_text(size = 16))
     
+  })
+  
+  output$timepy <- renderPlotly({
+    
+      plot_timepy()
       ggplotly(source = "timepy")
 
   })
   
+  output$download_timepy <- downloadHandler(
+    filename = function() { paste("citations_year", '.png', sep='') },
+    content = function(file) {
+      ggsave(file,  plot=plot_timepy(), width = 500, height = 200, units = "mm", device = "png")
+    }
+  )
+  
   #Tab 4- Map
+  
+  map_plot <- reactive({
+    
+    to.choropleth(worlddataplot(impdata(), world), world, worldplots(impdata(), world))
+    
+  }) 
+  
   output$map <- renderLeaflet(
 
-    to.choropleth(worlddataplot(impdata(), world), world, worldplots(impdata(), world))
+    map_plot()
 
   )
   
@@ -759,8 +912,27 @@ observeEvent(input$tidy, {
     }
   )
   
-}
+  output$download_map <- downloadHandler(
+    filename = function() {
+      paste("map", ".html", sep = "")
+    },
+    content = function(file) {
+      saveWidget(map_plot(), file)  # Ensure you're passing the reactive map here
+    }
+  )
+  
 
+
+# map_download <- downloadHandler(
+#   filename = "map.html",
+#   content = function(file){
+#     saveWidget(widget = map_plot(), 
+#       file = file
+#     )
+#   }
+# )
+
+}
 
 # Run the application 
 shinyApp(ui = ui, server = server)
