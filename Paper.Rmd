@@ -52,7 +52,7 @@ Authors of published scientific literature are often required to demonstrate the
 
 ## Data Sources and Structure
 
-LitReach uses data from Scopus, Web of Science, PubMed, and Google Scholar, and the data is uploaded by the user in the form of a CSV file. The user can upload raw CSV files from those sources to the app's inbuilt data tidying tool, which will concatenate the search results into one usable CSV file, the process of which is described in Figure 1. After data tidying, the CSV file involves some manual input of the data as not all sources export the same information when exporting citation information, particularly the type of literature if using data from Google Scholar.    
+LitReach uses data from Scopus, Web of Science, PubMed, and Google Scholar (through the Publish or Perish software [@harzingPublishPerish2007]), and the data is uploaded by the user in the form of a CSV file. The user can upload raw CSV files from those sources to the app's inbuilt data tidying tool, which will concatenate the search results into one usable CSV file, the process of which is described in Figure 1. After data tidying, the CSV file involves some manual input of the data as not all sources export the same information when exporting citation information, particularly the type of literature if using data from Google Scholar.    
 
 ```{r fig.cap="The process of citation data preparation and tidying"}
 library(magick)
@@ -93,7 +93,7 @@ The application is divided up into five tabs:
 1. The data tidying and upload tab, where the user can upload raw data and have it prepared for the app, and where the user uploads the data for the app to display.  
 2. The research outputs tab displays the number of citations, policy mentions, mentions in other places, views and pdf downloads of the literature.  
 3. The uses in the literature tab where the app displays information on how the piece of work has been cited in the literature.  
-4. The global reach tab is where the app displays information on the global reach of the piece of work in the form of citations from other countries.  
+4. The global reach tab is where the app displays information on the global reach of the piece of work in the form of citations from other countries.
 5. A frequently asked questions tab that provides information on app development. 
   
 

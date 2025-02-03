@@ -54,7 +54,7 @@ ui <- dashboardPage(
       menuItem("Research Outputs", tabName = "researchoutput"),
       menuItem("Use in Literature", tabName = "how"),
       menuItem("Global Reach", tabName = "where"),
-      menuItem("FAQ", tabName = "FAQ")
+      menuItem("FAQ and References", tabName = "FAQ")
     )
   ),
   
@@ -92,8 +92,8 @@ ui <- dashboardPage(
         tabName = "insup",
         fluidRow(
           column(12, h3("Introduction"),
-                p("Welcome. LitReach allows authors to visualise and assess their published works' global reach and use. LitReach provides a range of 
-                  visualisations that allow authors to explore the citation data from their work in various ways, from citations in types of 
+                p("Welcome! The LitReach app allows authors to visualise and assess their published works' global reach and use. The app provides a range of 
+                  visualisations that will enable authors to explore the citation data from their work in various ways, from citations in types of 
                   literature to global usage. LitReach also includes a data tidying tool that will take the raw data from literature searches and 
                   tidy it into a format that can be used in LitReach."),
           ),
@@ -105,18 +105,18 @@ ui <- dashboardPage(
                  br(),
                  p(strong("Step 1:"), "Download citation lists from any combination of Google Scholar, PubMed, Scopus and Web of Science (WoS)
                    (be sure to tick the affiliations box when downloading data from WoS and Scopus) as .csv or .xlsx files 
-                   (WoS only offers .xlsx, so you will have to save it as a CSV before uploading). Below, we have provided video and writen guides to show 
-                   you how this is done. You do not need to have citation information from each source for LitReach to work (except you must include the primary csv), but the more 
+                   (WoS only offers .xlsx, so you will have to save it as a CSV before uploading). Below, we have provided video and written guides to show 
+                   you how this is done. You do not need to have citation information from each source for LitReach to work (except you must include the primary CSV), but the more 
                    data that are included, the better the outputs will be. Unfortunately, Google Scholar currently does not have a mass download 
-                   function for citations, so you will have to use the Publish or Perish software (link below) and we have included a video tutorial 
+                   function for citations, so you will have to use the Publish or Perish (Harzin. 2007) software (link below) and we have included a video tutorial 
                    for using this software."),
-                 tags$a(href="https://harzing.com/resources/publish-or-perish", "Link to the Publish or Perish Website"),
+                 tags$a(href="https://harzing.com/resources/publish-or-perish", "Link to the Publish or Perish Website", target = "_blank"),
                  br(),
                  br(),
                  actionButton("PubMed", "Watch PubMed Guide", icon = icon("play-circle")),
                  actionButton("Scopus", "Watch Scopus Guide", icon = icon("play-circle")),
                  actionButton("WebofScience", "Watch Web of Science Guide", icon = icon("play-circle")),
-                 actionButton("PoP", "Watch Publish or Perish Guide", icon = icon("play-circle")), #########################
+                 actionButton("PoP", "Watch Publish or Perish Guide", icon = icon("play-circle")), 
                  bsModal("PubMedVid", "Watch the PubMed Guide", "PubMed", size = "large", tags$iframe(src = "PubMed.mp4", height = "900", width = "100%"), tags$body(p("PubMed:"), 
                                                                                                                                                                   p("1. For your selected article, scroll down to the end of the 'Cited by' section and select 'See all Cited by articles'"),
                                                                                                                                                                   p("2. Press 'Save' and select 'All results' and 'CSV' from the drop-down menus"), 
@@ -132,11 +132,11 @@ ui <- dashboardPage(
                                                                                                                                                                                        p("2. Select 'All' and press 'Export' at the top of the page"), 
                                                                                                                                                                                        p("3. Select 'CSV' as your method of export and ensure that both Citation information and Bibliographical information are selected and press 'Export'"),
                                                                                                                                                                                        p("4. Save your .csv file"))),
-                 bsModal("PoPVid", "Watch the Publish or Perish Guide", "PoP", size = "large", tags$iframe(src = "PoP.mp4", height = "900", width = "100%"),tags$body(p("Publish or Perish:"),  ####################################
-                                                                                                                                                                                       p("1. Start a new google scholar search in Puplish or Perish"),#################################
-                                                                                                                                                                                       p("2. Typoe in the title into the 'Title Words' field"), ############################
-                                                                                                                                                                                       p("3. Right click on the desired paper and select 'Retrieve Citing Working in Publish or Perish'"),#####################################
-                                                                                                                                                                                       p("4. On the right click 'Save Results' and then click the 'Results as CSV...' option"))),##################################
+                 bsModal("PoPVid", "Watch the Publish or Perish Guide", "PoP", size = "large", tags$iframe(src = "PoP.mp4", height = "900", width = "100%"),tags$body(p("Publish or Perish:"),  
+                                                                                                                                                                                       p("1. Start a new Google Scholar search in Publish or Perish"),
+                                                                                                                                                                                       p("2. Type in the title into the 'Title Words' field"), 
+                                                                                                                                                                                       p("3. Right-click on the desired paper and select 'Retrieve Citing Working in Publish or Perish'"),
+                                                                                                                                                                                       p("4. On the right, click 'Save Results' and then click the 'Results as CSV...' option"))),
                  br(),
                  br(),
                  p(strong("Step 2:"), "Create a .csv file containing the information about your primary reference (the references you are examining).
@@ -151,10 +151,10 @@ ui <- dashboardPage(
                  br(),
                  br(),
                  p(strong("Step 3:"), "Upload the primary reference file and the other citation data using the fields provided below. There is one 
-                   field per data source so be careful to upload each one to its specified box."),
-                 p(strong("Step 4:"), "After uploading the data, click the 'Tidy Data' button. This will take some time, and once the data has been tidied, 
+                   field per data source, so be careful to upload each one to the specified box."),
+                 p(strong("Step 4:"), "After uploading the data, click the 'Tidy Data' button. The data tidying will take some time, and once the data has been tidied, 
                    it will be displayed in a table below the upload fields. You can then download the data using the download button below the table."),
-                 p(strong("Step 5:"), "Due to Google Scholar downloads not including the country the first author is affiliated with or the type of literature 
+                 p(strong("Step 5:"), "Due to Google Scholar downloads not including the country the first author is affiliated with or the type of literature, 
                    these must be entered manually before uploading the data to LitReach. Below is a list of the types of literature and 
                    their associated codes. Please enter the letter code associated with each type in the type column:"),
                  p("JA: Journal Article, A: Article, GR: Government Report, NR: Non-Governmental Report, B: Book, LE: Letter to the Editor, T: Thesis, P: Patent, CP: Conference Proceedings, UK: Unknown"),
@@ -174,7 +174,7 @@ ui <- dashboardPage(
                            accept = ".csv", buttonLabel = list(icon("upload"), "Upload"), multiple = FALSE),
                  tableOutput("rawtabsco"), 
                  br(),
-                 actionButton("tidy", "Tidy Data", icon = icon("wand-magic-sparkles")), # broom
+                 actionButton("tidy", "Tidy Data", icon = icon("wand-magic-sparkles")), 
           ),
         ),
         fluidRow(
@@ -208,27 +208,27 @@ ui <- dashboardPage(
           ),
         fluidRow(
           column(9,
-                 br(),#####################################
-                 br(),#####################################
-                 br(),#####################################
-                 br(),#####################################
-                 br(),#####################################
-                 br(),#####################################
-                 br(),#####################################
-                 br(),#####################################
-                 br(),#####################################
-                 br(),#####################################
-                 br(),#####################################
-                 br(),#####################################
-                 br(),#####################################
-                 br(),#####################################
-                 br(),#####################################
-                 br(),#####################################
-                 br(),#####################################
-                 br(),#####################################
-                 br(),#####################################
-                 br(),#####################################
-                 br(),#####################################
+                 br(),
+                 br(),
+                 br(),
+                 br(),
+                 br(),
+                 br(),
+                 br(),
+                 br(),
+                 br(),
+                 br(),
+                 br(),
+                 br(),
+                 br(),
+                 br(),
+                 br(),
+                 br(),
+                 br(),
+                 br(),
+                 br(),
+                 br(),
+                 br(),
                  downloadButton("downloadPlot", "Download Plot")),
           ),
         ),
@@ -260,13 +260,13 @@ ui <- dashboardPage(
                  p("Note that without data from Google Scholar the second figure on tab three will only show journal articles as the data from the 
                    other sources do not extend past journal articles into grey literature."),
           ),
-          downloadButton("treedownload", "Download literature sources tree diagram"), ############################################
-          br(), #######################
+          downloadButton("treedownload", "Download literature sources tree diagram"), 
+          br(), 
         ),
         fluidRow(
           withSpinner(plotlyOutput("timecs")),
           downloadButton("download_timecs", "Download citations over time plot"),
-          br(), #####################################
+          br(), 
           withSpinner(plotlyOutput("timepy")),
           downloadButton("download_timepy", "Download citations by year plot")
         )
@@ -275,7 +275,7 @@ ui <- dashboardPage(
         tabName = "where",
         withSpinner(leafletOutput("map", height = 1000)),
         "The shapefile for the interactive map can be found ",
-        tags$a(href = "https://public.opendatasoft.com/explore/dataset/world-administrative-boundaries/table/", "here"),
+        tags$a(href = "https://public.opendatasoft.com/explore/dataset/world-administrative-boundaries/table/", "here", target = "_blank"),
         br(),
         br(),
         actionButton("DataTable", "View Data as a Table", icon = icon("table")),
@@ -311,7 +311,10 @@ ui <- dashboardPage(
                  p("To make them viewable in the waffle plot the metrics were divided by 5.", style = "font-size:16px"),
                  br(),
                  p(strong("When was the app last updated?"), style = "font-size:18px"),
-                 p("31/01/2025", style = "font-size:16px")
+                 p("31/01/2025", style = "font-size:16px"),
+                 p(strong("References"), style = "font-size:24px"),
+                 p(strong("Harzing, A.W. (2007) Publish or Perish, available from https://harzing.com/resources/publish-or-perish"), style = "font-size:18px"),
+                 
           )
         )
       )
@@ -556,10 +559,8 @@ observeEvent(input$tidy, {
                                  country %in% c("South Korea", "Korea") ~ "Republic of Korea",
                                  country == "Tiapei" ~ "Taiwan", 
                                  country == "Iran" ~ "Iran (Islamic Republic of)",
-                                 TRUE ~ country)) %>% #Enter the correct country names 
-      mutate(title = tolower(title), 
-             primary = case_when(primary != 1 ~ 0, 
-                                 TRUE ~ primary)) %>% 
+                                 TRUE ~ country), 
+             title = str_remove(title, "</i>")) %>% #Enter the correct country names 
       mutate(author = str_replace_all(author, "[[:punct:]]", ""), #remove all punctuation in author column
              title = str_replace_all(title, "[[:punct:]]", ""), #remove all punctuation in title column
              title = tolower(title), #Make title lowercase
@@ -568,6 +569,8 @@ observeEvent(input$tidy, {
              title_temp = str_replace_all(title_temp, pattern="\\(C\\)", replacement=""), #Remove copyright sign 
              title1 = title, 
              title1 = replace_non_ascii(title1, "")) %>% 
+      mutate(primary = case_when(primary != 1 ~ 0, 
+                                 TRUE ~ primary)) %>%
       distinct(author, title_temp, year, .keep_all = TRUE) %>% #Remove duplicates
       distinct(author, title_temp, .keep_all = TRUE) %>% #Remove duplicates
       rowid_to_column(var = "ref_id") %>% 
@@ -714,54 +717,45 @@ observeEvent(input$tidy, {
     },
     content = function(file) {
       # Save the plot to the specified file
-      ggsave(file, plot = last_plot(), device = "png")
+      ggsave(file, plot =    impdata() %>%
+               filter(primary == 1) %>% #Filter primary literature
+               rowid_to_column(var = "id1") %>% #Create new column from row ids
+               filter(id1 == 1) %>% #Filter first one
+               select(title, citations, mentionsO, mentionsP, views, downloads) %>%
+               pivot_longer(citations:downloads, names_to = "met", values_to = "num") %>% #Convert data to long
+               mutate(num1 = ceiling(num/5), #divide metrics by 5 for easier viewing
+                      met = as.factor(met)) %>%
+               select(-title) %>%
+               replace(is.na(.), 0) %>% 
+               ggplot(aes(fill = met, values = num1)) +
+               geom_waffle(n_rows = 25, size = .033, colour = "white", flip = TRUE, na.rm = TRUE) +
+               scale_fill_manual(name = NULL,
+                                 values = c(citations = "tomato", mentionsP = "purple", mentionsO = "cyan", views = "limegreen", downloads = "gold2"),
+                                 labels = c(citations = paste0("Citations ", "(", impdata() %>% filter(primary == 1) %>% select(citations) %>% pull(citations), ")"),
+                                            mentionsP = paste0("Policy Mentions ", "(", impdata() %>% filter(primary == 1) %>% select(mentionsP) %>% pull(mentionsP), ")"),
+                                            mentionsO = paste0("Other Mentions ", "(", impdata() %>% filter(primary == 1) %>% select(mentionsO) %>% pull(mentionsO), ")"),
+                                            views = paste0("Views ", "(", impdata() %>% filter(primary == 1) %>% select(views) %>% pull(views), ")"),
+                                            downloads = paste0("Downloads ", "(", impdata() %>% filter(primary == 1) %>% select(downloads) %>% pull(downloads), ")")),
+                                 drop = FALSE) +
+               coord_equal() +
+               theme_ipsum_rc(grid="") +
+               theme_enhance_waffle() +
+               theme(plot.margin=grid::unit(c(0,0,0,0), "mm"),
+                     legend.position = "bottom",
+                     text = element_text(size = 20)) +
+               guides(fill = guide_legend(nrow = 3)), device = "png")
     }
   )
-
-  # # Example of using reactiveFileReader to monitor an external file
-  # file_path <- "Citation Data.csv"
-  # 
-  # # Reactively read the file when it changes
-  # impdata <- reactiveFileReader(
-  #   intervalMillis = 1000,  # Check the file every 1 second for changes
-  #   filePath = file_path,
-  #   readFunc = function() {
-  #     read.csv(file_path)  # Adjust this based on how your data is structured
-  #   }
-  # )
-  # 
-  # # Generate the word cloud reactively based on impdata
-  # wordcl <- reactive({
-  #   terms <- termscreate(impdata())
-  #   set.seed(1234)  # Ensure reproducibility
-  #   wordcloud2(terms)
-  # })
-  # 
-  # # Render the word cloud in the UI
-  # output$word_cloud <- renderWordcloud2({
-  #   wordcl()
-  # })
-  # 
-  # # Save the word cloud to a file on download
-  # output$saveword <- downloadHandler(
-  #   filename = "wordcloud.html",
-  #   content = function(file) {
-  #     saveWidget(
-  #       widget = wordcl(),  # Reuse the reactive word cloud
-  #       file = file
-  #     )
-  #   }
-  # )
   
   #Store the word cloud in a reactiveValues object
   values <- reactiveValues(wordcloud = NULL)
 
   #Generate word cloud once and store it
   observe({
-    set.seed(1234)  # Ensure reproducibility #################################
-    colours <- randomColor(200) #################################
+    set.seed(1234)  # Ensure reproducibility 
+    colours <- randomColor(200) 
     terms <- termscreate(impdata())
-    values$wordcloud <- wordcloud2(terms, color = colours) #######################################
+    values$wordcloud <- wordcloud2(terms, color = colours) 
   })
 
   output$word_cloud <- renderWordcloud2({
@@ -797,26 +791,26 @@ observeEvent(input$tidy, {
 
   )
   
-  output$treedownload <- downloadHandler( ################################
-    filename = "tree.html", ################################
-    content = function(file){ ################################
-      saveWidget( ################################
-        widget = impdata() %>% ################################
-          group_by(type) %>% ################################
-          summarise(count = n()) %>% ################################
-          ungroup() %>% ################################
-          plot_ly( ################################
-            type='treemap', ################################
-            labels=.$type, ################################
-            parents = "", ################################
-            values = .$count, ################################
-            marker = list(colors = brewer.pal(9, "Set3")), ################################
-            domain=list(column=0)) %>% ################################
-          layout(legend = TRUE), ################################
-        file = file ################################
-      ) ################################
-    } ################################
-  ) ################################
+  output$treedownload <- downloadHandler( 
+    filename = "tree.html", 
+    content = function(file){ 
+      saveWidget( 
+        widget = impdata() %>% 
+          group_by(type) %>% 
+          summarise(count = n()) %>%
+          ungroup() %>% 
+          plot_ly( 
+            type='treemap', 
+            labels=.$type, 
+            parents = "", 
+            values = .$count, 
+            marker = list(colors = brewer.pal(9, "Set3")), 
+            domain=list(column=0)) %>% 
+          layout(legend = TRUE), 
+        file = file 
+      ) 
+    } 
+  ) 
 
   #Tab 3- Citations Over Time
   
@@ -920,17 +914,6 @@ observeEvent(input$tidy, {
       saveWidget(map_plot(), file)  # Ensure you're passing the reactive map here
     }
   )
-  
-
-
-# map_download <- downloadHandler(
-#   filename = "map.html",
-#   content = function(file){
-#     saveWidget(widget = map_plot(), 
-#       file = file
-#     )
-#   }
-# )
 
 }
 
