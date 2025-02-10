@@ -1,61 +1,19 @@
-methods for determining disease burden and calibrating national surveillance data in the united kingdom the second study of infectious intestinal disease in the community iid2 study
-european data sources for computing burden of potential vaccinepreventable diseases in ageing adults
-norovirus strain types found within the second infectious intestinal diseases iid2 study an analysis of norovirus circulating in the community
-social patterning of telephone healthadvice for diarrhoea and vomiting analysis of 24 million telehealth calls in england
-a model for rapid active surveillance for medicallyattended acute gastroenteritis within an integrated health care delivery system
-model selection for seasonal influenza forecasting
-a methodological framework for the evaluation of syndromic surveillance systems a case study of england
-norovirus transmission dynamics a modelling review
-an ontology to improve transparency in case definition and increase case finding of infectious intestinal disease database study in english general practice
-socioeconomic status is associated with symptom severity and sickness absence in people with infectious intestinal disease in the uk
-reassessing the total burden of norovirus circulating in the united kingdom population
-exploiting bacterial wholegenome sequencing data for evaluation of diagnostic assays campylobacter species identification as a case study
-retrospective forecasting of the 20102014 melbourne influenza seasons using multiple surveillance systems
-modelling study to estimate the health burden of foodborne diseases cases general practice consultations and hospitalisations in the uk 2009
-early detection of epidemic gii4 norovirus strains in uk and malawi role of surveillance of sporadic acute gastroenteritis in anticipating global epidemics
-estimating the incidence of acute infectious intestinal disease in the community in the uk a retrospective telephone survey
-agespecific incidence rates for norovirus in the community and presenting to primary healthcare facilities in the united kingdom
-the incidence of acute gastrointestinal illness in sweden
-measuring underreporting and underascertainment in infectious disease datasets a comparison of methods
-the second study of infectious intestinal disease iid2 increased rates of recurrent diarrhoea in individuals aged 65 years and above
-building influenza surveillance pyramids in near real time australia
-assessing multiple foodborne waterborne and environmental exposures of healthy people to potential enteric pathogen sources effect of age gender season and recall period
-acute gastrointestinal illness in adults in germany a populationbased telephone survey
-contaminated small drinking water supplies and risk of infectious intestinal disease a prospective cohort study
-the burden of selfreported acute gastrointestinal illness in italy a retrospective survey 20082009
-longitudinal study of infectious intestinal disease in the uk iid2 study incidence in the community and presenting to general practice
-acute gastroenteritis in the first 2 years of life a communitybased birth cohort study
-advances in microbial food safety 2 pathogen update salmonella
-anatomy of a seasonal influenza epidemic forecast
-burden of acute gastrointestinal illness in denmark 2009 a populationbased telephone survey
-changes in causes of acute gastroenteritis in the united kingdom over 15 years microbiologic findings from 2 prospective populationbased studies of infectious
-determining the health benefits of poultry industry compliance measures the case of campylobacteriosis regulation in new zealand
-diagnostic and public health management practices of foodborne bacterial diseases
-effect of definitions of acute gastroenteritis episodes using symptom diaries in paediatric cohorts a systematic review
-epidemiology of campylobacteriosis and acute gastroenteritis from a human and health systems perspective in switzerland
-factors that influence treatmentseeking expectations in response to infectious intestinal disease original survey and multinomial regression
-faith and failure in the gospel of mark
-gastrointestinal illnesses caused by microbes in sydney australia
-identifying and characterising sexual transmission of enteric pathogens in men who have sex with men using classical and molecular epidemiological methods
-impact of the london 2012 olympic and paralympic games on demand for microbiology gastrointestinal diagnostic services at the public health laboratory london
-improving burden of disease and source attribution estimates
-incidence of selfreported acute gastrointestinal infections in the community in poland a populationbased study
-investigating enteroaggregative escherichia coli virulence factors in human intestinal infection
-investigating the link between the presence of enteroaggregative escherichia coli and infectious intestinal disease in the united kingdom 1993 to 1996 and
-mathematical and statistical challenges for the surveillance of gastroenteritis
-population based selfreported acute gastrointestinal infection in slovenia multiplier study
-prevalence and factors associated with infectious intestinal diseases in ras al khaimah united arab emirates 2017 a populationbased crosssectional
-rapid declines in age groupspecific rotavirus infection and acute gastroenteritis among vaccinated and unvaccinated individuals within 1 year of rotavirus vaccine
-socioeconomic inequalities in the consequences of gastrointestinal infections
-surveillance of diarrhoea in small animal practice through the small animal veterinary surveillance network savsnet
-the genomic epidemiology of campylobacter from the republic of south africa
-the incidence and transmission of infectious gastroenteritis in english care homes
-the journey of the germ commentary on routes of infection and targeted hand hygiene
-the second study of infectious intestinal disease in the community iid2 study
-time trends of positivity rates from foodborne pathogen testing in switzerland 2003 to 2012
-to compare the methodologies used to estimate foodborne disease in the uk to those used in other countries
-universal extraction method for gastrointestinal pathogens
-what causes diarrhea in the united states risk factors for and causes of diarrhea in selected jurisdictions in the united states
-rapid declines in age groupspecific rotavirus infection and acute gastroenteritis among vaccinated and unvaccinated individuals within 1 year of rotavirus vaccine introduction in england and wales
-pathogen updates salmonella
-changes in causes of acute gastroenteritis in the united kingdom over 15 years microbiologic findings from 2 prospective populationbased studies of infectious intestinal disease
+climate human behaviour or environment individual based modelling ofcampylobacterseasonality and strategies to reduce disease burden
+differential impact of the covid19 pandemic on laboratory reporting of norovirus and campylobacter in england a modelling approach
+prediction of edaphoclimatic parameters in the incidence of campylobacter spp in northwestern mexico
+identifying the climatic drivers of honey bee disease in england and wales
+whole genome sequences de novo assembly and annotation of antibiotic resistant icampylobacter jejuni strains s27 s33 and s36 newly isolated from chicken meat
+association between precipitation events drought and animal operations with icampylobacter infections in the southwest united states 20092021
+exploring icampylobacter seasonality across europe using the european surveillance system tessy 2008 to 2016
+icampylobacter spp prevalence in santiago chile a study based on molecular detection in clinical stool samples from 2014 to 2019
+a mathematical classical stratification modeling approach to disentangling the impact of weather on infectious diseases a case study using spatiotemporally disaggregated campylobacter surveillance data for england and wales
+impact of climate change on foodborne infections and intoxications
+an analecta of visualizations for foodborne illness trends and seasonality
+seasonal mathematical model of salmonellosis transmission and the role of contaminated environments and food products
+exploring the association of weather variability on campylobacter  a systematic review
+detection and isolation of campylobacter spp from raw meat
+the ecological risk assessment of foodborne disease outbreaks in yazd province iran
+the temporal pattern and relationship of campylobacter prevalence in broiler slaughter batches and human campylobacteriosis cases in sweden 20092019
+survey of new zealand poultry consumers handling of raw poultry and food safety awareness to provide insight into risk factors for campylobacteriosis
+the effects of climate variability and seasonal influence on diarrhoeal disease in the tropical citystate of singapore  a timeseries analysis
+epidemiological prepandemic situation of campylobacteriosis in spain between the years 20132019
