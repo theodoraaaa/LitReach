@@ -27,8 +27,8 @@ library(plotly)
 
 library(sf)
 library(leaflet)
-library(leafem)
-library(mapview)
+#library(leafem)
+#library(mapview)
 library(leafpop)
 
 library(cld2)
