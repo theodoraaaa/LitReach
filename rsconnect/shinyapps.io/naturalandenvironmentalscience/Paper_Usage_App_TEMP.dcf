@@ -4,10 +4,10 @@ username: naturalandenvironmentalscience
 account: naturalandenvironmentalscience
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
-appId: 13239531
-bundleId: 9467514
+appId: 13964650
+bundleId: 9781469
 url: https://naturalandenvironmentalscience.shinyapps.io/Paper_Usage_App_TEMP/
 version: 1
 asMultiple: FALSE
 asStatic: FALSE
-ignoredFiles: Images/Data Processing.png|Paper.bcf|Paper.log|Paper.md|Paper.pdf|Paper.Rmd|Paper_files/figure-latex/unnamed-chunk-1-1.pdf|references.bib
+ignoredFiles: Images/Data Processing.png|Paper.pdf|Paper.Rmd|references.bib
