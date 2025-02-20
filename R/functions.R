@@ -1,56 +1,56 @@
-world <- st_read(here::here("Data", "world-administrative-boundaries.shp")) %>% 
-  dplyr::select("country" = "name", geometry) %>% 
-  mutate(country = case_when(country == "U.K. of Great Britain and Northern Ireland" ~ "United Kingdom", 
+world <- st_read(here::here("data", "world-administrative-boundaries.shp")) %>%
+  dplyr::select("country" = "name", geometry) %>%
+  mutate(country = case_when(country == "U.K. of Great Britain and Northern Ireland" ~ "United Kingdom",
                              TRUE ~ country))
 
-countrylist <- read_csv(here::here("Data", "Country List.csv")) %>% 
-  pull(country) #A list of countries created form the shape file being used to create the interactive map 
+countrylist <- read_csv(here::here("data", "Country List.csv")) %>%
+  pull(country) #A list of countries created form the shape file being used to create the interactive map
 
-statelist <- read_csv(here::here("Data", "State List.csv")) %>% 
+statelist <- read_csv(here::here("data", "State List.csv")) %>%
   pull(state) #A list of all 50 US states. this is needed because some author affiliations only go as far as state
 
 countrystatelist <- c(countrylist, statelist) #Combined country and state list
 
-primarytemp <- read_csv(here::here("Data", "Primary Template.csv"))
+primarytemp <- read_csv(here::here("data", "Primary Template.csv"))
 
 textfilecreate = function(filename, name){
   if(name == "title"){
     myfile = paste0(name, ".txt")
-    write.table(filename, file = myfile, sep = "", row.names = FALSE, 
+    write.table(filename, file = myfile, sep = "", row.names = FALSE,
                 col.names = FALSE, quote = FALSE, append = FALSE)
   }
 }
 
 termscreate <- function(data){
-  
+
   walk2(data, names(data), textfilecreate)
-  
-  file.rename(from = here::here("title.txt"), to = here::here("Data", "title.txt"))
-  
-  title.text <- readLines(here::here("Data", "title.txt"))
-  
+
+  file.rename(from = here::here("title.txt"), to = here::here("data", "title.txt"))
+
+  title.text <- readLines(here::here("data", "title.txt"))
+
   docs <- Corpus(VectorSource(title.text))
   docs <- tm_map(docs, toSpace, "/")
   docs <- tm_map(docs, toSpace, "@")
   docs <- tm_map(docs, toSpace, "\\|")
   docs <- tm_map(docs, toSpace, "  ")
-  
+
   docs <- tm_map(docs, content_transformer(tolower)) #Convert the text to lower case
   docs <- tm_map(docs, removeNumbers) #Remove numbers
   docs <- tm_map(docs, removeWords, stopwords("english")) #Remove English common stop words
   docs <- tm_map(docs, removePunctuation) #Remove punctuations
   docs <- tm_map(docs, stripWhitespace) #Eliminate extra white spaces
-  
+
   term.list <- TermDocumentMatrix(docs)
   term.matrix <- as.matrix(term.list)
   term.count <- sort(rowSums(term.matrix),decreasing=TRUE)
-  terms <- data.frame(word = names(term.count),freq=term.count) %>% 
-    mutate(word = case_when(word == "campylobacter" ~ "campylo.", 
-                            TRUE ~ word)) %>% 
+  terms <- data.frame(word = names(term.count),freq=term.count) %>%
+    mutate(word = case_when(word == "campylobacter" ~ "campylo.",
+                            TRUE ~ word)) %>%
     slice_head(n = 200)
-  
+
   return(terms)
-  
+
 }
 
 toSpace <- content_transformer(function (x , pattern) gsub(pattern, " ", x))
@@ -58,11 +58,11 @@ toSpace <- content_transformer(function (x , pattern) gsub(pattern, " ", x))
 makePopupPlot2 <- function(clickedArea, df) {
   # prepare the df for ggplot
   map.data.subplot <- df %>%
-    group_by(country, type) %>% 
-    summarise(count = n()) %>% 
-    ungroup() %>% 
-    filter(country == clickedArea) %>% 
-    mutate(type1 = case_when(type == "JA" ~ "Journal Article", 
+    group_by(country, type) %>%
+    summarise(count = n()) %>%
+    ungroup() %>%
+    filter(country == clickedArea) %>%
+    mutate(type1 = case_when(type == "JA" ~ "Journal Article",
                              type == "A" ~ "Article",
                              type == "GR" ~ "Government Report",
                              type == "NR" ~ "Non-Governmental Report",
@@ -70,9 +70,9 @@ makePopupPlot2 <- function(clickedArea, df) {
                              type == "CP" ~ "Confrence Proceedings",
                              type == "LE" ~ "Letter to the Editor",
                              type == "T" ~ "Thesis",
-                             type == "P" ~ "Patent", 
+                             type == "P" ~ "Patent",
                              type == "UK"~ "Unknown")) #Prep data for popup plots
-  
+
   popupPlot <- ggplot(map.data.subplot, aes(fill = type1, values = count)) +
     geom_waffle(n_rows = 25, size = .033, colour = "white", flip = TRUE, na.rm = TRUE) +
     scale_fill_manual(name = "Literature Type",
@@ -81,12 +81,12 @@ makePopupPlot2 <- function(clickedArea, df) {
     theme_ipsum_rc(grid=FALSE) +
     theme_enhance_waffle() +
     theme(text = element_text(size = 18)) #Create ggplot for popup plot of the specific country data
-  
+
   return(popupPlot)
 }
 
 # worldplots <- function(citdata, world){
-# 
+#
 #   map.data.all <- world %>%
 #     st_drop_geometry() %>%
 #     rowid_to_column(var = "country_id") %>%
@@ -94,26 +94,26 @@ makePopupPlot2 <- function(clickedArea, df) {
 #     group_by(country_id, country, type, year) %>%
 #     summarise(count = n()) %>%
 #     ungroup()
-# 
-# 
+#
+#
 #   map.plot <- as.list(NULL)
 #   for(ii in 1:nrow(world)) {
-# 
+#
 #     country <- map.data.all %>%
 #       filter(country_id == ii) %>%
 #       slice_sample(n = 1) %>%
 #       pull(country)
-# 
+#
 #     map.plot[[ii]] <- makePopupPlot2(country, citdata)
-# 
+#
 #   }
-# 
+#
 #   return(map.plot)
-# 
+#
 # }
 
 worlddataplot <- function(citdata, world){
-  
+
   map.data.ava <- world %>%
     st_drop_geometry() %>% #Remove geometry
     left_join(citdata, by = c("country")) %>% #Join data
@@ -121,13 +121,13 @@ worlddataplot <- function(citdata, world){
     summarise(count = n()) %>% #Summarise data to counts
     ungroup() %>%
     na.omit()
-  
+
   return(map.data.ava)
-  
+
 }
 
 worlddatatable <- function(citdata, world){
-  
+
   map.table.data <- world %>% #Prep dat for table view
     st_drop_geometry() %>%
     rowid_to_column(var = "country_id") %>%
@@ -139,37 +139,37 @@ worlddatatable <- function(citdata, world){
     rename(Country = country, "Literature Type" = type, Count = count) %>%
     na.omit() %>%
     arrange(Country)
-  
+
   return(map.table.data)
-  
+
 }
 
 to.choropleth <- function(land_dat, land_shapes, map.plot) {
   ## 1. Merge attributes with shapefiles ----
   #Terrestrial and Freshwater
-  geog_merge <- left_join(land_shapes, land_dat %>% group_by(country) %>% summarise(count = sum(count)) %>% ungroup(), by = "country") 
-  centroids <- geog_merge %>% 
-    st_centroid() %>% 
-    na.omit() %>% 
-    select(-count) %>% 
+  geog_merge <- left_join(land_shapes, land_dat %>% group_by(country) %>% summarise(count = sum(count)) %>% ungroup(), by = "country")
+  centroids <- geog_merge %>%
+    st_centroid() %>%
+    na.omit() %>%
+    select(-count) %>%
     mutate(long = unlist(map(geometry,1)),
            lat = unlist(map(geometry,2)))
-  
+
   ## 2. Define palettes ----
   landbins <- c(1, 5, 10, 25, 50, 100, 200, 300, 500, 1000)
   landpal <- colorBin("YlGn", domain = geog_merge$n, bins = landbins)
-  
+
   ## 3. Define labels ----
   landlabels <- sprintf(
     "<strong>%s</strong><br/>%g IID1 and IID2 Citations <sup></sup>",
     geog_merge$country, geog_merge$count
   ) %>% lapply(htmltools::HTML)
-  
-  
+
+
   ## 4. Map Choropleth: ----
-  leaflet() %>% 
-    addProviderTiles(providers$CartoDB.PositronNoLabels, 
-                     options = providerTileOptions(noWrap = TRUE)) %>% 
+  leaflet() %>%
+    addProviderTiles(providers$CartoDB.PositronNoLabels,
+                     options = providerTileOptions(noWrap = TRUE)) %>%
     addPolygons(
       data = geog_merge,
       fillColor = ~landpal(count),
@@ -186,8 +186,8 @@ to.choropleth <- function(land_dat, land_shapes, map.plot) {
       labelOptions = labelOptions(
         style = list("font-weight" = "normal", padding ="3px 8px"),
         textsize = "15px",
-        direction = "auto")) %>% 
-      #popup = popupGraph(map.plot, type = "png", width = 500, height = 500)) %>% 
+        direction = "auto")) %>%
+      #popup = popupGraph(map.plot, type = "png", width = 500, height = 500)) %>%
     addLegend(
       pal = landpal,
       values = geog_merge$count,
@@ -195,7 +195,91 @@ to.choropleth <- function(land_dat, land_shapes, map.plot) {
       title = "Citations",
       position = "bottomright",
       group = "Land") %>%
-    addMarkers(lng = centroids$long, lat = centroids$lat) %>% 
+    addMarkers(lng = centroids$long, lat = centroids$lat) %>%
     setView(lng = -1.5, lat = 53.4, zoom = 1.5)
-  
+
+}
+
+wordcloud2 <- function(data,
+                       size = 1,
+                       minSize =  0,
+                       gridSize =  0,
+                       fontFamily = 'Segoe UI',
+                       fontWeight = 'bold',
+                       color =  'random-dark',
+                       backgroundColor = "white",
+                       minRotation = -pi/4,
+                       maxRotation = pi/4,
+                       shuffle = TRUE,
+                       rotateRatio = 0.4,
+                       shape = 'circle',
+                       ellipticity = 0.65,
+                       widgetsize = NULL,
+                       figPath = NULL,
+                       hoverFunction = NULL
+) {
+  if("table" %in% class(data)){
+    dataOut = data.frame(name = names(data),
+                         freq = as.vector(data))
+  }else{
+    data = as.data.frame(data)
+    dataOut = data[,1:2]
+    names(dataOut) = c("name", "freq")
+  }
+
+
+
+  if(!is.null(figPath)){
+    if(!file.exists(figPath)){
+      stop("cannot find fig in the figPath")
+    }
+    spPath = strsplit(figPath, "\\.")[[1]]
+    len = length(spPath)
+    figClass = spPath[len]
+
+    if(!figClass %in% c("jpeg","jpg","png","bmp","gif")){
+      stop("file should be a jpeg, jpg, png, bmp or gif file!")
+    }
+
+    base64 = base64enc::base64encode(figPath)
+    base64 = paste0("data:image/",figClass ,";base64,",base64)
+
+  }else{
+    base64 = NULL
+  }
+
+  # create a list that contains the settings
+
+  weightFactor = size * 180 / max(dataOut$freq)
+
+  settings <- list(
+    word = dataOut$name,
+    freq = dataOut$freq,
+    fontFamily = fontFamily,
+    fontWeight = fontWeight,
+    color =  color,
+    minSize =  minSize,
+    weightFactor = weightFactor,
+    backgroundColor = backgroundColor,
+    gridSize =  gridSize,
+    minRotation = minRotation,
+    maxRotation = maxRotation,
+    shuffle = shuffle,
+    rotateRatio = rotateRatio,
+    shape = shape,
+    ellipticity = ellipticity,
+    figBase64 = base64,
+    hover = htmlwidgets::JS(hoverFunction)
+  )
+
+
+  htmlwidgets::createWidget("wordcloud2", settings,
+                            width = widgetsize[1],
+                            height = widgetsize[2],
+                            sizingPolicy = htmlwidgets::sizingPolicy(
+                              viewer.padding = 0,
+                              # viewer.suppress = T,
+                              browser.padding = 0,
+                              browser.fill = TRUE
+                            ))
 }

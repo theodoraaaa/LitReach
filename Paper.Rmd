@@ -2,6 +2,8 @@
 title: 'LitReach: A Shiny App for Assessing the Global Reach and Usage of Published Work'
 tags:
   - Shiny
+  - Global reach
+  - Literature
 authors:
   - name: Ben W Rowland
     orcid: 0000-0001-8810-7870
@@ -60,7 +62,7 @@ library(ggplot2)
 library(cowplot)
 
 ggdraw() +
-  draw_image("Images/Data Processing.png") 
+  draw_image("images/Data Processing.png") 
 
 ```
 
@@ -71,7 +73,7 @@ library(tidyverse)
 library(here)
 library(flextable)
 
-data <- read_csv(here::here("Data", "Citation Data.csv")) %>% 
+data <- read_csv(here::here("data", "Citation Data.csv")) %>% 
   select(ref_id:year, country) %>% 
   mutate(year = as.character(year))
 
@@ -104,5 +106,13 @@ The data need by LitReach is limited by the data that can be extracted from lite
 ## Ongoing Research
 
 LitReach was developed in part to help assess the impact of the ongoing Third Study of Infectious Intestinal Disease [(IID3)](https://www.food.gov.uk/research/foodborne-pathogens/the-third-study-of-infectious-intestinal-disease-in-the-uk-iid3) in the UK. It was used to support the bid for further funding of the IID3 study. 
+
+## Link to Software Archive
+
+The LitReach repository is available [here](https://github.com/BRowland-git/LitReach)
+
+## Acknowledgements
+
+We acknowledge the Newcastle University Policy team for funding the work that lead to the idea of LitReach. 
 
 ## References
