@@ -27,8 +27,6 @@ library(plotly)
 
 library(sf)
 library(leaflet)
-#library(leafem)
-#library(mapview)
 library(leafpop)
 
 library(cld2)
@@ -40,13 +38,13 @@ library(plotly)
 library(plot3D)
 library(htmlwidgets)
 
-source(here::here("functions.R"))
+source(here::here("R", "functions.R"))
 
 # Define UI for application that draws a histogram
 ui <- dashboardPage(
 
   dashboardHeader(title = "LitReach"),
-    
+
   dashboardSidebar(
     sidebarMenu(
       menuItem("Home", tabName = "home"),
@@ -57,9 +55,9 @@ ui <- dashboardPage(
       menuItem("FAQ and References", tabName = "FAQ")
     )
   ),
-  
+
   dashboardBody(
-    
+
     tags$head(tags$style(HTML('
 
                         .modal-lg {
@@ -68,7 +66,7 @@ ui <- dashboardPage(
 
                         }
                       '))),
-    
+
     tags$head(
       tags$style(HTML("
         .skin-blue .main-header .navbar {
@@ -82,33 +80,33 @@ ui <- dashboardPage(
         }
       "))
     ),
-    
+
     tabItems(
       tabItem(
         tabName = "home",
-        tags$img(src = "LitReach Logo 2.PNG", style = 'position: absolute', width = "100%", height = "100%")
+        tags$img(src = "assets/LitReach Logo 2.PNG", style = 'position: absolute', width = "100%", height = "100%")
       ),
       tabItem(
         tabName = "insup",
         fluidRow(
           column(12, h3("Introduction"),
-                p("Welcome! The LitReach app allows authors to visualise and assess their published works' global reach and use. The app provides a range of 
-                  visualisations that will enable authors to explore the citation data from their work in various ways, from citations in types of 
-                  literature to global usage. LitReach also includes a data tidying tool that will take the raw data from literature searches and 
+                p("Welcome! The LitReach app allows authors to visualise and assess their published works' global reach and use. The app provides a range of
+                  visualisations that will enable authors to explore the citation data from their work in various ways, from citations in types of
+                  literature to global usage. LitReach also includes a data tidying tool that will take the raw data from literature searches and
                   tidy it into a format that can be used in LitReach."),
           ),
         ),
         fluidRow(
           column(12, h3("Data Tidying Instructions"),
-                 p("LitReach requires data in a specific format. The following are step-by-step instructions for using LitReach’s built-in data tidying tool, which 
+                 p("LitReach requires data in a specific format. The following are step-by-step instructions for using LitReach’s built-in data tidying tool, which
                    will get data into the format LitReach expects."),
                  br(),
                  p(strong("Step 1:"), "Download citation lists from any combination of Google Scholar, PubMed, Scopus and Web of Science (WoS)
-                   (be sure to tick the affiliations box when downloading data from WoS and Scopus) as .csv or .xlsx files 
-                   (WoS only offers .xlsx, so you will have to save it as a CSV before uploading). Below, we have provided video and written guides to show 
-                   you how this is done. You do not need to have citation information from each source for LitReach to work (except you must include the primary CSV), but the more 
-                   data that are included, the better the outputs will be. Unfortunately, Google Scholar currently does not have a mass download 
-                   function for citations, so you will have to use the Publish or Perish (Harzin. 2007) software (link below) and we have included a video tutorial 
+                   (be sure to tick the affiliations box when downloading data from WoS and Scopus) as .csv or .xlsx files
+                   (WoS only offers .xlsx, so you will have to save it as a CSV before uploading). Below, we have provided video and written guides to show
+                   you how this is done. You do not need to have citation information from each source for LitReach to work (except you must include the primary CSV), but the more
+                   data that are included, the better the outputs will be. Unfortunately, Google Scholar currently does not have a mass download
+                   function for citations, so you will have to use the Publish or Perish (Harzin. 2007) software (link below) and we have included a video tutorial
                    for using this software."),
                  tags$a(href="https://harzing.com/resources/publish-or-perish", "Link to the Publish or Perish Website", target = "_blank"),
                  br(),
@@ -116,46 +114,46 @@ ui <- dashboardPage(
                  actionButton("PubMed", "Watch PubMed Guide", icon = icon("play-circle")),
                  actionButton("Scopus", "Watch Scopus Guide", icon = icon("play-circle")),
                  actionButton("WebofScience", "Watch Web of Science Guide", icon = icon("play-circle")),
-                 actionButton("PoP", "Watch Publish or Perish Guide", icon = icon("play-circle")), 
-                 bsModal("PubMedVid", "Watch the PubMed Guide", "PubMed", size = "large", tags$iframe(src = "PubMed.mp4", height = "900", width = "100%"), tags$body(p("PubMed:"), 
+                 actionButton("PoP", "Watch Publish or Perish Guide", icon = icon("play-circle")),
+                 bsModal("PubMedVid", "Watch the PubMed Guide", "PubMed", size = "large", tags$iframe(src = "PubMed.mp4", height = "900", width = "100%"), tags$body(p("PubMed:"),
                                                                                                                                                                   p("1. For your selected article, scroll down to the end of the 'Cited by' section and select 'See all Cited by articles'"),
-                                                                                                                                                                  p("2. Press 'Save' and select 'All results' and 'CSV' from the drop-down menus"), 
+                                                                                                                                                                  p("2. Press 'Save' and select 'All results' and 'CSV' from the drop-down menus"),
                                                                                                                                                                   p("3. Press 'Create file' and save your .csv file"))),
-                 bsModal("ScoVid", "Watch the Scopus Guide", "Scopus", size = "large", tags$iframe(src = "Scopus.mp4", height = "900", width = "100%"), tags$body(p("Scopus:"), 
+                 bsModal("ScoVid", "Watch the Scopus Guide", "Scopus", size = "large", tags$iframe(src = "Scopus.mp4", height = "900", width = "100%"), tags$body(p("Scopus:"),
                                                                                                                                                                   p("1. On the search page for your selected article, press on the number of citations for the article"),
-                                                                                                                                                                  p("2. Check the 'Select all records' box to select all articles on the page"), 
+                                                                                                                                                                  p("2. Check the 'Select all records' box to select all articles on the page"),
                                                                                                                                                                   p("3. Press 'Export' and select 'Excel'"),
                                                                                                                                                                   p("4. Select the first or third option to select all records and select 'Full Record' from the Record Content drop-down menu and press Export"),
                                                                                                                                                                   p("5. Save your .csv file"))),
-                 bsModal("WoSVid", "Watch the Web of Science Guide", "WebofScience", size = "large", tags$iframe(src = "Web of Science.mp4", height = "900", width = "100%"),tags$body(p("Web of Science:"), 
+                 bsModal("WoSVid", "Watch the Web of Science Guide", "WebofScience", size = "large", tags$iframe(src = "Web of Science.mp4", height = "900", width = "100%"),tags$body(p("Web of Science:"),
                                                                                                                                                                                        p("1. On the search page for your selected article, press on the number of citations for the article"),
-                                                                                                                                                                                       p("2. Select 'All' and press 'Export' at the top of the page"), 
+                                                                                                                                                                                       p("2. Select 'All' and press 'Export' at the top of the page"),
                                                                                                                                                                                        p("3. Select 'CSV' as your method of export and ensure that both Citation information and Bibliographical information are selected and press 'Export'"),
                                                                                                                                                                                        p("4. Save your .csv file"))),
-                 bsModal("PoPVid", "Watch the Publish or Perish Guide", "PoP", size = "large", tags$iframe(src = "PoP.mp4", height = "900", width = "100%"),tags$body(p("Publish or Perish:"),  
+                 bsModal("PoPVid", "Watch the Publish or Perish Guide", "PoP", size = "large", tags$iframe(src = "PoP.mp4", height = "900", width = "100%"),tags$body(p("Publish or Perish:"),
                                                                                                                                                                                        p("1. Start a new Google Scholar search in Publish or Perish"),
-                                                                                                                                                                                       p("2. Type in the title into the 'Title Words' field"), 
+                                                                                                                                                                                       p("2. Type in the title into the 'Title Words' field"),
                                                                                                                                                                                        p("3. Right-click on the desired paper and select 'Retrieve Citing Working in Publish or Perish'"),
                                                                                                                                                                                        p("4. On the right, click 'Save Results' and then click the 'Results as CSV...' option"))),
                  br(),
                  br(),
                  p(strong("Step 2:"), "Create a .csv file containing the information about your primary reference (the references you are examining).
-                   The columns from citations to downloads are information taken from places 
-                   like Altmetric, and if they are not available for your paper, leave them as 0 (mentionsO = mentions in other places, 
-                   mentionsP = mentions in policy sources). A template for this CSV file can be downloaded below the image describing the data. 
+                   The columns from citations to downloads are information taken from places
+                   like Altmetric, and if they are not available for your paper, leave them as 0 (mentionsO = mentions in other places,
+                   mentionsP = mentions in policy sources). A template for this CSV file can be downloaded below the image describing the data.
                    You can leave the id, type and primary columns as they appear in the template."),
                  downloadButton("primarytemp", "Download Primary Reference Template"),
                  br(),
                  br(),
-                 img(src="primary1.JPG", height = "100%", width = "100%"),
+                 img(src="assets/primary1.png", height = "100%", width = "100%"),
                  br(),
                  br(),
-                 p(strong("Step 3:"), "Upload the primary reference file and the other citation data using the fields provided below. There is one 
+                 p(strong("Step 3:"), "Upload the primary reference file and the other citation data using the fields provided below. There is one
                    field per data source, so be careful to upload each one to the specified box."),
-                 p(strong("Step 4:"), "After uploading the data, click the 'Tidy Data' button. The data tidying will take some time, and once the data has been tidied, 
+                 p(strong("Step 4:"), "After uploading the data, click the 'Tidy Data' button. The data tidying will take some time, and once the data has been tidied,
                    it will be displayed in a table below the upload fields. You can then download the data using the download button below the table."),
-                 p(strong("Step 5:"), "Due to Google Scholar downloads not including the country the first author is affiliated with or the type of literature, 
-                   these must be entered manually before uploading the data to LitReach. Below is a list of the types of literature and 
+                 p(strong("Step 5:"), "Due to Google Scholar downloads not including the country the first author is affiliated with or the type of literature,
+                   these must be entered manually before uploading the data to LitReach. Below is a list of the types of literature and
                    their associated codes. Please enter the letter code associated with each type in the type column:"),
                  p("JA: Journal Article, A: Article, GR: Government Report, NR: Non-Governmental Report, B: Book, LE: Letter to the Editor, T: Thesis, P: Patent, CP: Conference Proceedings, UK: Unknown"),
                  fileInput("rawuploadpri", "Upload CSV Data from Primary Source",
@@ -166,29 +164,29 @@ ui <- dashboardPage(
                  tableOutput("rawtabgo"),
                  fileInput("rawuploadpub", "Upload CSV Data from PubMed",
                            accept = ".csv", buttonLabel = list(icon("upload"), "Upload"), multiple = FALSE),
-                 tableOutput("rawtabpub"), 
+                 tableOutput("rawtabpub"),
                  fileInput("rawuploadwos", "Upload CSV Data from Web of Science",
                            accept = ".csv", buttonLabel = list(icon("upload"), "Upload"), multiple = FALSE),
-                 tableOutput("rawtabwos"), 
+                 tableOutput("rawtabwos"),
                  fileInput("rawuploadsco", "Upload CSV Data from Scopus",
                            accept = ".csv", buttonLabel = list(icon("upload"), "Upload"), multiple = FALSE),
-                 tableOutput("rawtabsco"), 
+                 tableOutput("rawtabsco"),
                  br(),
-                 actionButton("tidy", "Tidy Data", icon = icon("wand-magic-sparkles")), 
+                 actionButton("tidy", "Tidy Data", icon = icon("wand-magic-sparkles")),
           ),
         ),
         fluidRow(
           column(12,
-                 tableOutput("citetidy"), 
+                 tableOutput("citetidy"),
                  br(),
                  downloadButton("datadownload", "Download Data")
           ),
         ),
         fluidRow(
           column(12, h3("Uploading your Data to LitReach"),
-                 p("Once you have the data in the correct format and all fields filled in (see the image below for an example), you can upload the data 
+                 p("Once you have the data in the correct format and all fields filled in (see the image below for an example), you can upload the data
                   to run LitReach."),
-                 img(src="citation.jpg", height = "100%", width = "100%"),
+                 img(src="assets/citation.jpg", height = "100%", width = "100%"),
                  br(),
                  fileInput("impupload", "Choose CSV File",
                            accept = ".csv", buttonLabel = list(icon("upload"), "Upload"), multiple = FALSE),
@@ -196,13 +194,13 @@ ui <- dashboardPage(
           ),
         ),
       ),
-      
+
       tabItem(
         tabName = "researchoutput",
         fluidRow(
           column(1)
           ),
-        fluidRow(  
+        fluidRow(
           column(9,
                   withSpinner(plotOutput("primaryplot"))
           ),
@@ -257,16 +255,16 @@ ui <- dashboardPage(
                    HTML('&emsp;'), strong("NR:"), HTML('&nbsp;'), "Non-Governmental Report", HTML('&emsp;'), strong("B:"), HTML('&nbsp;'), "Book", HTML('&emsp;'),
                    HTML('&emsp;'), strong("LE:"), HTML('&nbsp;'), "Letter to the Editor", HTML('&emsp;'), HTML('&emsp;'), strong("T:"), HTML('&nbsp;'), "Thesis",
                    HTML('&emsp;'), strong("P:"), HTML('&nbsp;'), "Patent", HTML('&emsp;'), strong("CP:"), HTML('&nbsp;'), "Conference Proceedings", HTML('&emsp;'), strong("UK:"), HTML('&nbsp;'), "Unknown"),
-                 p("Note that without data from Google Scholar the second figure on tab three will only show journal articles as the data from the 
+                 p("Note that without data from Google Scholar the second figure on tab three will only show journal articles as the data from the
                    other sources do not extend past journal articles into grey literature."),
           ),
-          downloadButton("treedownload", "Download literature sources tree diagram"), 
-          br(), 
+          downloadButton("treedownload", "Download literature sources tree diagram"),
+          br(),
         ),
         fluidRow(
           withSpinner(plotlyOutput("timecs")),
           downloadButton("download_timecs", "Download citations over time plot"),
-          br(), 
+          br(),
           withSpinner(plotlyOutput("timepy")),
           downloadButton("download_timepy", "Download citations by year plot")
         )
@@ -279,7 +277,7 @@ ui <- dashboardPage(
         br(),
         br(),
         actionButton("DataTable", "View Data as a Table", icon = icon("table")),
-        bsModal("mapdatamodal", "Map Data as Table", "DataTable", size = "large", dataTableOutput("maptbl"), 
+        bsModal("mapdatamodal", "Map Data as Table", "DataTable", size = "large", dataTableOutput("maptbl"),
                 downloadButton("downloadtable", "Download")),
         downloadButton("download_map", "Download map"),
       ),
@@ -292,10 +290,10 @@ ui <- dashboardPage(
                  br(),
                  p(strong("How were duplicate references removed?"), style = "font-size:18px"),
                  p("Duplicate referneces were removed from the data by removing exact matches between author, title and the iid project being refernced. Further duplicates
-                   were removed if the reference title had 15 or fewer characters differnt to another title.", style = "font-size:16px"), 
+                   were removed if the reference title had 15 or fewer characters differnt to another title.", style = "font-size:16px"),
                  br(),
                  p(strong("How was the country associated with each piece of literaure decided?"), style = "font-size:18px"),
-                 p("The country associated with each with piece of literature was determined based on the country of affiliation for the first author", 
+                 p("The country associated with each with piece of literature was determined based on the country of affiliation for the first author",
                    style = "font-size:16px"),
                  br(),
                  p(strong("What constitutes a journal article?"), style = "font-size:18px"),
@@ -314,7 +312,7 @@ ui <- dashboardPage(
                  p("31/01/2025", style = "font-size:16px"),
                  p(strong("References"), style = "font-size:24px"),
                  p(strong("Harzing, A.W. (2007) Publish or Perish, available from https://harzing.com/resources/publish-or-perish"), style = "font-size:18px"),
-                 
+
           )
         )
       )
@@ -323,7 +321,7 @@ ui <- dashboardPage(
 )
 
 server <- function(input, output) {
-  
+
   output$primarytemp <- downloadHandler(
     filename = function() {
       # Use the selected dataset as the suggested file name
@@ -334,312 +332,312 @@ server <- function(input, output) {
       write_csv(primarytemp, file)
     }
   )
-  
+
   set.seed(1234)
-  
+
   #### Tidy Data ####
-  
+
   output$rawtabpri <- renderTable(input$rawuploadpri)
   output$rawtabgo <- renderTable(input$rawuploadgo)
   output$rawtabpub <- renderTable(input$rawuploadpub)
   output$rawtabwos <- renderTable(input$rawuploadwos)
   output$rawtabsco <- renderTable(input$rawuploadsco)
-  
+
 observeEvent(input$tidy, {
-    
-    countrylist <- read_csv(here::here("Data", "Country List.csv")) %>% 
-      pull(country) #A list of countries created form the shape file being used to create the interactive map 
-    
-    statelist <- read_csv(here::here("Data", "State List.csv")) %>% 
+
+    countrylist <- read_csv(here::here("Data", "Country List.csv")) %>%
+      pull(country) #A list of countries created form the shape file being used to create the interactive map
+
+    statelist <- read_csv(here::here("Data", "State List.csv")) %>%
       pull(state) #A list of all 50 US states. this is needed because some author affiliations only go as far as state
-    
+
     countrystatelist <- c(countrylist, statelist) #Combined country and state list
-    
-    
+
+
     inFilepri <- input$rawuploadpri
     pri.df <- read_csv(inFilepri$datapath)
     print("1")
-    
+
     if(is.null(input$rawuploadgo) == TRUE){
-      
+
       go.df <- read_csv(here::here("Data", "G.csv"))
       print("2")
-      
+
     } else{
-     
+
       inFilego <- input$rawuploadgo
       go.df <- read_csv(inFilego$datapath)
-      print("2") 
-      
+      print("2")
+
     }
-    
+
     if(is.null(input$rawuploadpub) == TRUE){
-      
+
       pub.df <- read_csv(here::here("Data", "P.csv"))
       print("3")
-      
+
     } else{
-      
+
       inFilepub <- input$rawuploadpub
       pub.df <- read_csv(inFilepub$datapath)
-      print("3") 
-      
+      print("3")
+
     }
-    
+
     if(is.null(input$rawuploadwos) == TRUE){
-      
+
       wos.df <- read_csv(here::here("Data", "W.csv"))
       print("4")
-      
+
     } else{
-      
+
       inFilewos <- input$rawuploadwos
       wos.df <- read_csv(inFilewos$datapath)
-      print("4") 
-      
+      print("4")
+
     }
-    
+
     if(is.null(input$rawuploadsco) == TRUE){
-      
+
       sco.df <- read_csv(here::here("Data", "S.csv"))
       print("5")
-      
+
     } else{
-      
+
       inFilesco <- input$rawuploadsco
       sco.df <- read_csv(inFilesco$datapath)
-      print("5") 
-      
+      print("5")
+
     }
-    
+
     #Google
     if(nrow(go.df) > 0) {
-    
-    google.data.tidy <- go.df %>% 
+
+    google.data.tidy <- go.df %>%
       dplyr::select(Authors, Title, Year) %>% #Select wanted columns
       mutate(Authors = str_replace(Authors, "\\,", "|")) %>% #Replace , with |
       separate(Authors, into = c("author", "trash"), sep = "\\|") %>% #Separate column at |
       separate(author, into = c("junk", "author"), " ") %>% #Separate new author column at the space
       dplyr::select(-c(junk, trash)) %>% #Remove junk columns
-      rename(title = Title, year = Year) %>% 
+      rename(title = Title, year = Year) %>%
       na.omit() %>% #Remove all NAs
-      mutate(language = detect_language(title)) %>% #Detect the language of the titles 
-      rowwise() %>% 
+      mutate(language = detect_language(title)) %>% #Detect the language of the titles
+      rowwise() %>%
       mutate(n = google_translate(title, target_language = "en", source_language = "auto")) %>% #Translate each title
-      ungroup() %>% 
+      ungroup() %>%
       mutate(language1 = detect_language(n)) %>%  #Double check newly translated columns language
       dplyr::select(author, "title" = n, year, language1) %>% #Select wanted columns
       na.omit() %>% #Remove all NAs
-      group_by(title) %>% 
-      mutate(id = cur_group_id()) %>% #Group identical titles 
-      ungroup() %>% 
-      arrange(id) %>% 
-      distinct() %>% #Remove duplicates 
+      group_by(title) %>%
+      mutate(id = cur_group_id()) %>% #Group identical titles
+      ungroup() %>%
+      arrange(id) %>%
+      distinct() %>% #Remove duplicates
       dplyr::select(-c(language1, id))
-    
+
     } else {
-      
+
       google.data.tidy <- NULL
-      
+
     }
-    
+
     #PubMed
     if(nrow(pub.df) > 0) {
-    
-    citations <- pub.df %>% 
+
+    citations <- pub.df %>%
       slice(-1) %>% #Remove top one which is the reference for the output in question
       rowid_to_column(var = "id") #Create and new id column from row ids
-    
+
     all.articles <- NULL
-    
+
     for (ttl in 1:nrow(citations)) {#For each row
-      
-      ID <- citations %>% 
-        filter(id == ttl) %>% 
+
+      ID <- citations %>%
+        filter(id == ttl) %>%
         pull(PMID) #Get PubMed id
-      
+
       batch_pubmed_download(paste0(ID), dest_dir = here::here("Data")) #Download PubMed data
-      
+
       readLines(here::here("Data", "easyPubMed_data_01.txt")) %>% #Read in the new file
         str_replace_all("\\&[[:graph:]]*\\;", "") %>% #Remove non alphanumeric characters
         writeLines(here::here("Data", "pubfile.txt")) #Write the file back out to avoid it ever being in dataframe format which caused issues with special characters
-      
+
       pubmed.info.list <- articles_to_list(here::here("Data", "pubfile.txt")) #Convert PubMed data to list
-      
+
       if(length(pubmed.info.list) > 1) stop() #If there is more then one citation in the list stop the loop
       if(is.null(article_to_df(pubmed.info.list))) { #If there is no citation in the list
-        
-        title <- citations %>% 
-          filter(id == ttl) %>% 
+
+        title <- citations %>%
+          filter(id == ttl) %>%
           pull(Title) #Get current title
-        
-        all.articles <- all.articles %>% 
+
+        all.articles <- all.articles %>%
           add_row(author = NA, title = title, year = NA, country = NA) #Add it to data frame without PubMed data to be done manually
-        
+
         next()
-        
+
       }
-      
-      article.df <- article_to_df(pubmed.info.list, getAuthors = TRUE, autofill = TRUE) %>% 
+
+      article.df <- article_to_df(pubmed.info.list, getAuthors = TRUE, autofill = TRUE) %>%
         slice(1) %>% #Take the first row
         mutate(country = str_which(address, paste0(countrystatelist, "$|", countrystatelist, "\\.|", countrystatelist, "\\ |", countrystatelist,
                                                    "\\,"))[1],
                country = countrylist[country]) %>% #Identify what the country of affiliation is using the country list created above
-        dplyr::select("author" = lastname, title, year, country) 
-      
-      all.articles <- all.articles %>% 
+        dplyr::select("author" = lastname, title, year, country)
+
+      all.articles <- all.articles %>%
         bind_rows(article.df) #Join data all references from one citation
-      
+
       file.remove(here::here("Data", "easyPubMed_data_01.txt")) #Remove any files created
       file.remove(here::here("Data", "pubfile.txt")) #Remove any files created
-      
+
     }
-    
-    pubmed.data.tidy <- all.articles %>% 
-      mutate(year = as.numeric(year), 
+
+    pubmed.data.tidy <- all.articles %>%
+      mutate(year = as.numeric(year),
              type = "JA")
-    
+
     } else {
-      
+
       pubmed.data.tidy <- NULL
-      
+
     }
-    
+
     print("6")
-    
+
     #Scopus
     if(nrow(sco.df) > 0) {
-    
-    scopus.data.tidy <- sco.df %>% 
+
+    scopus.data.tidy <- sco.df %>%
       mutate(Authors = str_replace(Authors, "\\,", "|")) %>% #Replace , with |
       separate(Authors, into = c("author", "trash"), sep = "\\|") %>% #Separate at |
-      select(author, "title" = Title, "year" = Year, affiliation = Affiliations) %>% 
+      select(author, "title" = Title, "year" = Year, affiliation = Affiliations) %>%
       mutate(country = str_extract(affiliation, str_c(countrylist, collapse="|")),
-             type = "JA") %>% 
+             type = "JA") %>%
       select(-affiliation)
 
     } else {
-      
+
       scopus.data.tidy <- NULL
-      
+
     }
-    
+
     #Web of Science
     if(nrow(wos.df) > 0) {
-      
-      wos.data.tidy <- wos.df %>% 
-        select(type = "Publication Type", Authors, title = "Article Title", Addresses, year = "Publication Year", address = "Addresses") %>% 
+
+      wos.data.tidy <- wos.df %>%
+        select(type = "Publication Type", Authors, title = "Article Title", Addresses, year = "Publication Year", address = "Addresses") %>%
         mutate(type = case_when(type == "J" ~ "JA", #If the literature type is J make it JA
-                                TRUE ~ type)) %>% 
-        mutate(Authors = str_replace(Authors, "\\,", "|"), 
-               country = str_extract(address, str_c(countrylist, collapse="|"))) %>% 
-        separate(Authors, into = c("author", "trash"), sep = "\\|") %>% 
+                                TRUE ~ type)) %>%
+        mutate(Authors = str_replace(Authors, "\\,", "|"),
+               country = str_extract(address, str_c(countrylist, collapse="|"))) %>%
+        separate(Authors, into = c("author", "trash"), sep = "\\|") %>%
         select(type, author, title, year, country)
-    
+
     } else {
-      
+
       wos.data.tidy <- NULL
-      
+
     }
-    
+
     #All
-    
-    all.data <- pri.df %>% 
-      bind_rows(pubmed.data.tidy) %>% 
-      bind_rows(google.data.tidy) %>% 
-      distinct(author, title, year, .keep_all = TRUE) %>% 
-      bind_rows(scopus.data.tidy) %>% 
-      distinct(author, title, year, .keep_all = TRUE) %>% 
-      bind_rows(wos.data.tidy) %>% 
-      distinct(author, title, year, .keep_all = TRUE) %>% #Join each data and remove duplicates 
-      mutate(country = case_when(country %in% c(statelist, "US", "USA") ~ "United States of America", 
-                                 country %in% c("England", "Scotland", "Wales", "Northern Ireland", "UK", "United Kingdom") ~ 
+
+    all.data <- pri.df %>%
+      bind_rows(pubmed.data.tidy) %>%
+      bind_rows(google.data.tidy) %>%
+      distinct(author, title, year, .keep_all = TRUE) %>%
+      bind_rows(scopus.data.tidy) %>%
+      distinct(author, title, year, .keep_all = TRUE) %>%
+      bind_rows(wos.data.tidy) %>%
+      distinct(author, title, year, .keep_all = TRUE) %>% #Join each data and remove duplicates
+      mutate(country = case_when(country %in% c(statelist, "US", "USA") ~ "United States of America",
+                                 country %in% c("England", "Scotland", "Wales", "Northern Ireland", "UK", "United Kingdom") ~
                                    "United Kingdom",
-                                 country == "Russia" ~ "Russian Federation", 
+                                 country == "Russia" ~ "Russian Federation",
                                  country %in% c("South Korea", "Korea") ~ "Republic of Korea",
-                                 country == "Tiapei" ~ "Taiwan", 
+                                 country == "Tiapei" ~ "Taiwan",
                                  country == "Iran" ~ "Iran (Islamic Republic of)",
-                                 TRUE ~ country), 
-             title = str_remove(title, "</i>")) %>% #Enter the correct country names 
+                                 TRUE ~ country),
+             title = str_remove(title, "</i>")) %>% #Enter the correct country names
       mutate(author = str_replace_all(author, "[[:punct:]]", ""), #remove all punctuation in author column
              title = str_replace_all(title, "[[:punct:]]", ""), #remove all punctuation in title column
              title = tolower(title), #Make title lowercase
              title_temp = str_replace_all(title, "\\ ", ""), #remove all spaces in title to create one lone string or compressed titles
              title_temp = replace_non_ascii(title_temp, ""), #Remove non ascii text
-             title_temp = str_replace_all(title_temp, pattern="\\(C\\)", replacement=""), #Remove copyright sign 
-             title1 = title, 
-             title1 = replace_non_ascii(title1, "")) %>% 
-      mutate(primary = case_when(primary != 1 ~ 0, 
+             title_temp = str_replace_all(title_temp, pattern="\\(C\\)", replacement=""), #Remove copyright sign
+             title1 = title,
+             title1 = replace_non_ascii(title1, "")) %>%
+      mutate(primary = case_when(primary != 1 ~ 0,
                                  TRUE ~ primary)) %>%
       distinct(author, title_temp, year, .keep_all = TRUE) %>% #Remove duplicates
       distinct(author, title_temp, .keep_all = TRUE) %>% #Remove duplicates
-      rowid_to_column(var = "ref_id") %>% 
-      mutate(type = case_when(type == "C" ~ "CP", 
+      rowid_to_column(var = "ref_id") %>%
+      mutate(type = case_when(type == "C" ~ "CP",
                               TRUE ~ type))
-    
+
     print("7")
-    
+
     strings <- c(all.data$title_temp) #vector of all the compressed titles
     new.data <- all.data
-    
+
     for(ii in 1:length(strings)){ #For each string
-      
+
       string <- strings[ii]
-      
+
       if(is.na(string) == TRUE) break()
-      
-      new.data <- new.data %>% 
-        rowwise() %>% 
-        mutate(score = adist(title_temp, string)[,1]) %>% #Identify how many characters would need to be changed to turn one title to another 
-        ungroup() %>% 
+
+      new.data <- new.data %>%
+        rowwise() %>%
+        mutate(score = adist(title_temp, string)[,1]) %>% #Identify how many characters would need to be changed to turn one title to another
+        ungroup() %>%
         filter(score > 10 | score == 0) #Remove very similar titles
-      
+
       strings <- c(new.data$title_temp)
-      
+
     }
-    
+
     print("8")
-    
-    all.data1 <- new.data %>% 
-      select(-c(score, title_temp, title1, id)) %>% 
+
+    all.data1 <- new.data %>%
+      select(-c(score, title_temp, title1, id)) %>%
       rowid_to_column(var = "id")
-    
-    all.data2 <- all.data1 %>% 
-      distinct(title, .keep_all = TRUE) %>% 
+
+    all.data2 <- all.data1 %>%
+      distinct(title, .keep_all = TRUE) %>%
       mutate(title_temp = str_replace_all(title, "\\ ", ""))
-    
-    
+
+
     strings <- c(all.data2$title_temp)
     new.data <- all.data2
-    
+
     print("9")
-    
+
     #Repeat above process but cut off for similar titles is not 15 characters
     for(ii in 1:length(strings)){
-      
+
       string <- strings[ii]
-    
+
       #if(is.na(string) == TRUE) stop("Reached end of strings")
       if(is.na(string) == TRUE) break()
-      new.data <- new.data %>% 
-        rowwise() %>% 
-        mutate(score = adist(title_temp, string)[,1]) %>% 
-        ungroup() %>% 
-        filter(score > 15 | score == 0) %>% 
+      new.data <- new.data %>%
+        rowwise() %>%
+        mutate(score = adist(title_temp, string)[,1]) %>%
+        ungroup() %>%
+        filter(score > 15 | score == 0) %>%
         distinct(title_temp, .keep_all = TRUE)
-      
+
       strings <- c(new.data$title_temp)
-      
+
     }
-    
-    new.data1 <- new.data %>% 
-      select(-c(title_temp, score, id)) %>% 
+
+    new.data1 <- new.data %>%
+      select(-c(title_temp, score, id)) %>%
       mutate(year = as.character(year))
-    
+
     print("10")
-  
+
     output$citetidy <- renderTable(head(new.data1))
-      
+
     output$datadownload <- downloadHandler(
       filename = function() {
         # Use the selected dataset as the suggested file name
@@ -650,36 +648,36 @@ observeEvent(input$tidy, {
         write_csv(new.data1, file)
       }
     )
-    
-  })
-  
 
-  
+  })
+
+
+
   #### Results ####
-  
+
   output$impdatatab <- renderTable(input$impupload)
-  
+
   impdata <- reactive({
     req(input$impupload)
-    
+
     inFile <- input$impupload
-    
+
     if(is.null(inFile)) return(NULL)
-    
+
     df <- read_csv(inFile$datapath)
-    
+
     data1 <- df %>%
       mutate(type = case_when(type %in% c("CP", "D") ~ "CP",
-                              type %in% c("LE", "R") ~ "LE", 
-                              type %in% c("T", "DI") ~ "T", 
-                              type %in% c("B", "BC") ~ "B", 
-                              TRUE ~ type), 
+                              type %in% c("LE", "R") ~ "LE",
+                              type %in% c("T", "DI") ~ "T",
+                              type %in% c("B", "BC") ~ "B",
+                              TRUE ~ type),
              title = str_replace_all(title, "[^[:alnum:][:whitespace:]]", ""))
-    
+
     return(data1)
-    
+
   })
-  
+
   output$primaryplot <- renderPlot(
 
    impdata() %>%
@@ -691,7 +689,7 @@ observeEvent(input$tidy, {
         mutate(num1 = ceiling(num/5), #divide metrics by 5 for easier viewing
                met = as.factor(met)) %>%
         select(-title) %>%
-        replace(is.na(.), 0) %>% 
+        replace(is.na(.), 0) %>%
         ggplot(aes(fill = met, values = num1)) +
         geom_waffle(n_rows = 25, size = .033, colour = "white", flip = TRUE, na.rm = TRUE) +
         scale_fill_manual(name = NULL,
@@ -726,7 +724,7 @@ observeEvent(input$tidy, {
                mutate(num1 = ceiling(num/5), #divide metrics by 5 for easier viewing
                       met = as.factor(met)) %>%
                select(-title) %>%
-               replace(is.na(.), 0) %>% 
+               replace(is.na(.), 0) %>%
                ggplot(aes(fill = met, values = num1)) +
                geom_waffle(n_rows = 25, size = .033, colour = "white", flip = TRUE, na.rm = TRUE) +
                scale_fill_manual(name = NULL,
@@ -746,16 +744,16 @@ observeEvent(input$tidy, {
                guides(fill = guide_legend(nrow = 3)), device = "png")
     }
   )
-  
+
   #Store the word cloud in a reactiveValues object
   values <- reactiveValues(wordcloud = NULL)
 
   #Generate word cloud once and store it
   observe({
-    set.seed(1234)  # Ensure reproducibility 
-    colours <- randomColor(200) 
+    set.seed(1234)  # Ensure reproducibility
+    colours <- randomColor(200)
     terms <- termscreate(impdata())
-    values$wordcloud <- wordcloud2(terms, color = colours) 
+    values$wordcloud <- wordcloud2(terms, color = colours)
   })
 
   output$word_cloud <- renderWordcloud2({
@@ -771,15 +769,15 @@ observeEvent(input$tidy, {
       )
     }
   )
-  
+
   #Tab3- Tree Diagrams
   output$tree1 <- renderPlotly(
     #Plotly tree diagram
-    
-    impdata() %>% 
-      group_by(type) %>% 
-      summarise(count = n()) %>% 
-      ungroup() %>% 
+
+    impdata() %>%
+      group_by(type) %>%
+      summarise(count = n()) %>%
+      ungroup() %>%
       plot_ly(
       type='treemap',
       labels=.$type,
@@ -790,48 +788,48 @@ observeEvent(input$tidy, {
       layout(legend = TRUE)
 
   )
-  
-  output$treedownload <- downloadHandler( 
-    filename = "tree.html", 
-    content = function(file){ 
-      saveWidget( 
-        widget = impdata() %>% 
-          group_by(type) %>% 
+
+  output$treedownload <- downloadHandler(
+    filename = "tree.html",
+    content = function(file){
+      saveWidget(
+        widget = impdata() %>%
+          group_by(type) %>%
           summarise(count = n()) %>%
-          ungroup() %>% 
-          plot_ly( 
-            type='treemap', 
-            labels=.$type, 
-            parents = "", 
-            values = .$count, 
-            marker = list(colors = brewer.pal(9, "Set3")), 
-            domain=list(column=0)) %>% 
-          layout(legend = TRUE), 
-        file = file 
-      ) 
-    } 
-  ) 
+          ungroup() %>%
+          plot_ly(
+            type='treemap',
+            labels=.$type,
+            parents = "",
+            values = .$count,
+            marker = list(colors = brewer.pal(9, "Set3")),
+            domain=list(column=0)) %>%
+          layout(legend = TRUE),
+        file = file
+      )
+    }
+  )
 
   #Tab 3- Citations Over Time
-  
-  plot_timecs <- reactive({ 
-    impdata() %>% 
-    mutate(number =  1) %>% 
-    group_by(year) %>% 
-    summarise(cpy = sum(number)) %>% 
-    mutate(ccs = cumsum(cpy)) %>% 
-    ungroup() %>% 
+
+  plot_timecs <- reactive({
+    impdata() %>%
+    mutate(number =  1) %>%
+    group_by(year) %>%
+    summarise(cpy = sum(number)) %>%
+    mutate(ccs = cumsum(cpy)) %>%
+    ungroup() %>%
     ggplot(aes(x = year, y = ccs)) +
     geom_point() +
     geom_line() +
     scale_x_continuous(name = "Year") +
     scale_y_continuous(name = "Citations over Time") +
     theme_bw() +
-    theme(text = element_text(size = 16)) 
+    theme(text = element_text(size = 16))
   })
-  
+
   output$timecs <- renderPlotly({
-    
+
     plot_timecs()
     ggplotly(source = "timecs")
 
@@ -843,14 +841,14 @@ observeEvent(input$tidy, {
       ggsave(file,  plot=plot_timecs(), width = 500, height = 200, units = "mm", device = "png")
     }
   )
-  
-  
-  plot_timepy <- reactive({ 
-    impdata() %>% 
-      mutate(number =  1) %>% 
-      group_by(year) %>% 
-      summarise(cpy = sum(number)) %>% 
-      mutate(ccs = cumsum(cpy)) %>% 
+
+
+  plot_timepy <- reactive({
+    impdata() %>%
+      mutate(number =  1) %>%
+      group_by(year) %>%
+      summarise(cpy = sum(number)) %>%
+      mutate(ccs = cumsum(cpy)) %>%
       ungroup() %>%
       ggplot(aes(x = year, y = cpy)) +
       geom_point() +
@@ -859,42 +857,42 @@ observeEvent(input$tidy, {
       scale_y_continuous(name = "Citations per Year") +
       theme_bw() +
       theme(text = element_text(size = 16))
-    
+
   })
-  
+
   output$timepy <- renderPlotly({
-    
+
       plot_timepy()
       ggplotly(source = "timepy")
 
   })
-  
+
   output$download_timepy <- downloadHandler(
     filename = function() { paste("citations_year", '.png', sep='') },
     content = function(file) {
       ggsave(file,  plot=plot_timepy(), width = 500, height = 200, units = "mm", device = "png")
     }
   )
-  
+
   #Tab 4- Map
-  
+
   map_plot <- reactive({
-    
+
     to.choropleth(worlddataplot(impdata(), world), world, worldplots(impdata(), world))
-    
-  }) 
-  
+
+  })
+
   output$map <- renderLeaflet(
 
     map_plot()
 
   )
-  
+
   output$maptbl <- renderDataTable(
-    
-    worlddatatable(impdata(), world), 
+
+    worlddatatable(impdata(), world),
     options = list(lengthChange = FALSE)
-    
+
     )
 
   output$downloadtable <- downloadHandler(
@@ -905,7 +903,7 @@ observeEvent(input$tidy, {
       write_csv(worlddatatable(impdata(), world), file)
     }
   )
-  
+
   output$download_map <- downloadHandler(
     filename = function() {
       paste("map", ".html", sep = "")
@@ -917,5 +915,5 @@ observeEvent(input$tidy, {
 
 }
 
-# Run the application 
-shinyApp(ui = ui, server = server)
+# Run the application
+#shinyApp(ui = ui, server = server)
