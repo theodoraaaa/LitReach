@@ -11,8 +11,8 @@ a variety of ways, from citations in types of literature to global
 reach. The app also includes a data tidying tool that formats the
 citation data for use by the app.
 
-LitReach Copyright (C) 2025 Ben Rowland This program comes with
-ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to
+LitReach Copyright (C) 2025 Ben Rowland 
+This program comes with ABSOLUTELY NO WARRANTY. This is free software, and you are welcome to
 redistribute it.
 
 ## Installation
