@@ -52,3 +52,6 @@ We have included exemplar data from the citation searched for "methods for deter
 
 The data for LitReach is required to be in .csv format. More information is provided on the "Instructions and Data Upload" tab of the software.
 
+## Contributions and Issues
+
+Please see the [guide]() for code contributions and suggestions.
