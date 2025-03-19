@@ -47,4 +47,16 @@ LitReach()
 
 ```
 
-From there follow the instructions that appear on the first page of the app. 
+From there follow the instructions that appear in the the app. 
+
+## Example
+
+We have included exemplar data from the citation searched for "methods for determining disease burden and calibrating national surveillance data in the United Kingdom the second study of infectious intestinal disease in the community iid2 study" by Sahra O'Brien 2010. The data can be found in the "example data" folder in the repository, and once the software has been installed, follow the instructions using the exemplar data to view the output. 
+
+## Data Requirments
+
+The data for LitReach is required to be in .csv format. More information is provided on the "Instructions and Data Upload" tab of the software.
+
+## Contributions and Issues
+
+Please see the [guide]() for code contributions and suggestions.

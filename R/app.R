@@ -193,6 +193,13 @@ ui <- dashboardPage(
                  tableOutput("impdatatab")
           ),
         ),
+        fluidRow(
+          column(12,
+                 p("LitReach Copyright (C) 2025 Ben Rowland", style = "font-size:10px"),
+                 p("This program comes with ABSOLUTELY NO WARRANTY.", style = "font-size:10px"),
+                 p("This is free software, and you are welcome to redistribute it.", style = "font-size:10px")),
+          ),
+        ),
       ),
 
       tabItem(
