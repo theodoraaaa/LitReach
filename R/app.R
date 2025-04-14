@@ -353,67 +353,67 @@ server <- function(input, output) {
 
 observeEvent(input$tidy, {
 
-    countrylist <- read_csv(here::here("data", "Country List.csv")) %>%
+    countrylist <- readLines(here::here("data", "Country List.csv")) %>%
       pull(country) #A list of countries created form the shape file being used to create the interactive map
 
-    statelist <- read_csv(here::here("data", "State List.csv")) %>%
+    statelist <- readLines(here::here("data", "State List.csv")) %>%
       pull(state) #A list of all 50 US states. this is needed because some author affiliations only go as far as state
 
     countrystatelist <- c(countrylist, statelist) #Combined country and state list
 
 
     inFilepri <- input$rawuploadpri
-    pri.df <- read_csv(inFilepri$datapath)
+    pri.df <- readLines(inFilepri$datapath)
     print("1")
 
     if(is.null(input$rawuploadgo) == TRUE){
 
-      go.df <- read_csv(here::here("data", "G.csv"))
+      go.df <- readLines(here::here("data", "G.csv"))
       print("2")
 
     } else{
 
       inFilego <- input$rawuploadgo
-      go.df <- read_csv(inFilego$datapath)
+      go.df <- readLines(inFilego$datapath)
       print("2")
 
     }
 
     if(is.null(input$rawuploadpub) == TRUE){
 
-      pub.df <- read_csv(here::here("data", "P.csv"))
+      pub.df <- readLines(here::here("data", "P.csv"))
       print("3")
 
     } else{
 
       inFilepub <- input$rawuploadpub
-      pub.df <- read_csv(inFilepub$datapath)
+      pub.df <- readLines(inFilepub$datapath)
       print("3")
 
     }
 
     if(is.null(input$rawuploadwos) == TRUE){
 
-      wos.df <- read_csv(here::here("data", "W.csv"))
+      wos.df <- readLines(here::here("data", "W.csv"))
       print("4")
 
     } else{
 
       inFilewos <- input$rawuploadwos
-      wos.df <- read_csv(inFilewos$datapath)
+      wos.df <- readLines(inFilewos$datapath)
       print("4")
 
     }
 
     if(is.null(input$rawuploadsco) == TRUE){
 
-      sco.df <- read_csv(here::here("data", "S.csv"))
+      sco.df <- readLines(here::here("data", "S.csv"))
       print("5")
 
     } else{
 
       inFilesco <- input$rawuploadsco
-      sco.df <- read_csv(inFilesco$datapath)
+      sco.df <- readLines(inFilesco$datapath)
       print("5")
 
     }
@@ -672,7 +672,7 @@ observeEvent(input$tidy, {
 
     if(is.null(inFile)) return(NULL)
 
-    df <- read_csv(inFile$datapath)
+    df <- readLines(inFile$datapath)
 
     data1 <- df %>%
       mutate(type = case_when(type %in% c("CP", "D") ~ "CP",

@@ -3,15 +3,15 @@ world <- st_read(here::here("data", "world-administrative-boundaries.shp")) %>%
   mutate(country = case_when(country == "U.K. of Great Britain and Northern Ireland" ~ "United Kingdom",
                              TRUE ~ country))
 
-countrylist <- read_csv(here::here("data", "Country List.csv")) %>%
+countrylist <- readLines(here::here("data", "Country List.csv")) %>%
   pull(country) #A list of countries created form the shape file being used to create the interactive map
 
-statelist <- read_csv(here::here("data", "State List.csv")) %>%
+statelist <- readLines(here::here("data", "State List.csv")) %>%
   pull(state) #A list of all 50 US states. this is needed because some author affiliations only go as far as state
 
 countrystatelist <- c(countrylist, statelist) #Combined country and state list
 
-primarytemp <- read_csv(here::here("data", "Primary Template.csv"))
+primarytemp <- readLines(here::here("data", "Primary Template.csv"))
 
 textfilecreate = function(filename, name){
   if(name == "title"){
