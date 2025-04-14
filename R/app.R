@@ -2,6 +2,7 @@ library(shiny)
 library(shinycssloaders)
 library(shinydashboard)
 library(shinyBS)
+library(DT)
 
 library(tidyverse)
 library(here)
@@ -895,7 +896,7 @@ observeEvent(input$tidy, {
 
   )
 
-  output$maptbl <- renderDataTable(
+  output$maptbl <- DT::renderDT(
 
     worlddatatable(impdata(), world),
     options = list(lengthChange = FALSE)
