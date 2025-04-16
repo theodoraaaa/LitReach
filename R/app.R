@@ -364,7 +364,7 @@ observeEvent(input$tidy, {
 
     if(is.null(input$rawuploadgo) == TRUE){
 
-      go.df <- go
+      go.df
       print("2")
 
     } else{
@@ -377,7 +377,7 @@ observeEvent(input$tidy, {
 
     if(is.null(input$rawuploadpub) == TRUE){
 
-      pub.df <- pub
+      pub.df
       print("3")
 
     } else{
@@ -390,7 +390,7 @@ observeEvent(input$tidy, {
 
     if(is.null(input$rawuploadwos) == TRUE){
 
-      wos.df <- wos
+      wos.df
       print("4")
 
     } else{
@@ -403,7 +403,7 @@ observeEvent(input$tidy, {
 
     if(is.null(input$rawuploadsco) == TRUE){
 
-      sco.df <- sco
+      sco.df
       print("5")
 
     } else{

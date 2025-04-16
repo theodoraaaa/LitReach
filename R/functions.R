@@ -7,24 +7,26 @@ pub.path <- fs::path_package("extdata", "P.rda", package = "LitReach")
 wos.path <- fs::path_package("extdata", "W.rda", package = "LitReach")
 sco.path <- fs::path_package("extdata", "S.rda", package = "LitReach")
 
-world <- load(world.path) #Load the world shapefile
-country <- load(country.path)
-state <- load(state.path)
-primary <- load(primary.path)
-go <- load(primary.path)
-pub <- load(primary.path)
-wos <- load(primary.path)
-sco <- load(primary.path)
+load(world.path) #Load the world shapefile
+load(country.path)
+load(state.path)
+load(primary.path)
+load(go.path)
+load(pub.path)
+load(wos.path)
+load(sco.path)
 
-countrylist <- country %>%
+world <- world %>%
+  mutate(country = case_when(country == "U.K. of Great Britain and Northern Ireland" ~ "United Kingdom",
+                             TRUE ~ country))
+
+countrylist <- countrylist %>%
   pull(country) #A list of countries created form the shape file being used to create the interactive map
 
-statelist <- state %>%
+statelist <- statelist %>%
   pull(state) #A list of all 50 US states. this is needed because some author affiliations only go as far as state
 
 countrystatelist <- c(countrylist, statelist) #Combined country and state list
-
-primarytemp <- primary
 
 textfilecreate = function(filename, name){
   if(name == "title"){
