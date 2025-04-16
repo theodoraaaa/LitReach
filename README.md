@@ -17,18 +17,18 @@ redistribute it.
 
 ## Installation
 
-The latest version can be installed from GitHub:
-
-``` r
-remotes::install_github("BRowland-git/LitReach")
-```
-
 All of the dependencies are found on CRAN except for
 [wordcloud2](https://github.com/Lchiffon/wordcloud2) which will need to
 be installed from GitHub:
 
 ``` r
 devtools::install_github("lchiffon/wordcloud2")
+```
+
+The latest version can be installed from GitHub:
+
+``` r
+remotes::install_github("BRowland-git/LitReach")
 ```
 
 ## Getting started
