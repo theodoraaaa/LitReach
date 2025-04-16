@@ -40,6 +40,10 @@ library(plotly)
 library(plot3D)
 library(htmlwidgets)
 
+library(conflicted)
+
+conflict_prefer("select", "dplyr")
+
 source(here::here("R", "functions.R"))
 
 # Define UI for application that draws a histogram
