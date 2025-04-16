@@ -45,6 +45,7 @@ library(conflicted)
 conflict_prefer("select", "dplyr")
 conflict_prefer("filter", "dplyr")
 conflict_prefer("dataTableOutput", "DT")
+conflict_prefer("layout", "plotly")
 
 source(here::here("R", "functions.R"))
 
