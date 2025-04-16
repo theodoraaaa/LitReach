@@ -13,6 +13,7 @@ library(polyglotr)
 library(easyPubMed)
 library(readxl)
 library(textclean)
+library(fs)
 
 library(waffle)
 library(hrbrthemes)

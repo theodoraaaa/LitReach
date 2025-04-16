@@ -1,17 +1,22 @@
-world <- st_read(here::here("data", "world-administrative-boundaries.shp")) %>%
+world.path <- fs::path_package("extdata", "world-administrative-boundaries.shp", package = "sf")
+country.path <- fs::path_package("extdata", "Country List.csv", package = "readr")
+state.path <- fs::path_package("extdata", "State List.csv", package = "readr")
+primary.path <- fs::path_package("extdata", "Primary Template.csv", package = "readr")
+
+world <- st_read(world.path) %>%
   dplyr::select("country" = "name", geometry) %>%
   mutate(country = case_when(country == "U.K. of Great Britain and Northern Ireland" ~ "United Kingdom",
                              TRUE ~ country))
 
-countrylist <- readLines(here::here("data", "Country List.csv")) %>%
+countrylist <- read_csv(country.path) %>%
   pull(country) #A list of countries created form the shape file being used to create the interactive map
 
-statelist <- readLines(here::here("data", "State List.csv")) %>%
+statelist <- read_csv(state.path) %>%
   pull(state) #A list of all 50 US states. this is needed because some author affiliations only go as far as state
 
 countrystatelist <- c(countrylist, statelist) #Combined country and state list
 
-primarytemp <- readLines(here::here("data", "Primary Template.csv"))
+primarytemp <- read_csv(primary.path)
 
 textfilecreate = function(filename, name){
   if(name == "title"){
