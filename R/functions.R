@@ -17,7 +17,6 @@ wos <- load(primary.path)
 sco <- load(primary.path)
 
 world <- world %>%
-  dplyr::select("country" = "name", geometry) %>%
   mutate(country = case_when(country == "U.K. of Great Britain and Northern Ireland" ~ "United Kingdom",
                              TRUE ~ country))
 
