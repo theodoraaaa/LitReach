@@ -46,7 +46,8 @@ conflict_prefer("filter", "dplyr")
 conflict_prefer("dataTableOutput", "DT")
 conflict_prefer("layout", "plotly")
 
-source(here::here("R", "functions.R"))
+function.path <- fs::path_package("extdata", "functions.R", package = "LitReach")
+source(function.path)
 
 # Define UI for application that draws a histogram
 ui <- dashboardPage(
