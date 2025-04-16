@@ -43,7 +43,7 @@ library(htmlwidgets)
 library(conflicted)
 
 conflict_prefer("select", "dplyr")
-conflict_prefer("dataTableOutput", "shiny")
+conflict_prefer("dataTableOutput", "DT")
 
 source(here::here("R", "functions.R"))
 
