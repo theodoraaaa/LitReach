@@ -2,11 +2,19 @@ world.path <- fs::path_package("extdata", "World.rda", package = "LitReach")
 country.path <- fs::path_package("extdata", "Country List.rda", package = "LitReach")
 state.path <- fs::path_package("extdata", "State List.rda", package = "LitReach")
 primary.path <- fs::path_package("extdata", "Primary Template.rda", package = "LitReach")
+go.path <- fs::path_package("extdata", "G.rda", package = "LitReach")
+pub.path <- fs::path_package("extdata", "P.rda", package = "LitReach")
+wos.path <- fs::path_package("extdata", "W.rda", package = "LitReach")
+sco.path <- fs::path_package("extdata", "S.rda", package = "LitReach")
 
 world <- load(world.path) #Load the world shapefile
 country <- load(country.path)
 state <- load(state.path)
 primary <- load(primary.path)
+go <- load(primary.path)
+pub <- load(primary.path)
+wos <- load(primary.path)
+sco <- load(primary.path)
 
 world <- world %>%
   dplyr::select("country" = "name", geometry) %>%
@@ -94,33 +102,6 @@ makePopupPlot2 <- function(clickedArea, df) {
 
   return(popupPlot)
 }
-
-# worldplots <- function(citdata, world){
-#
-#   map.data.all <- world %>%
-#     st_drop_geometry() %>%
-#     rowid_to_column(var = "country_id") %>%
-#     left_join(citdata, by = c("country")) %>%
-#     group_by(country_id, country, type, year) %>%
-#     summarise(count = n()) %>%
-#     ungroup()
-#
-#
-#   map.plot <- as.list(NULL)
-#   for(ii in 1:nrow(world)) {
-#
-#     country <- map.data.all %>%
-#       filter(country_id == ii) %>%
-#       slice_sample(n = 1) %>%
-#       pull(country)
-#
-#     map.plot[[ii]] <- makePopupPlot2(country, citdata)
-#
-#   }
-#
-#   return(map.plot)
-#
-# }
 
 worlddataplot <- function(citdata, world){
 

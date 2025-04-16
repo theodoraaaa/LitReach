@@ -355,57 +355,57 @@ server <- function(input, output) {
 observeEvent(input$tidy, {
 
     inFilepri <- input$rawuploadpri
-    pri.df <- readLines(inFilepri$datapath)
+    pri.df <- read_csv(inFilepri$datapath)
     print("1")
 
     if(is.null(input$rawuploadgo) == TRUE){
 
-      go.df <- readLines(here::here("data", "G.csv"))
+      go.df <- go
       print("2")
 
     } else{
 
       inFilego <- input$rawuploadgo
-      go.df <- readLines(inFilego$datapath)
+      go.df <- read_csv(inFilego$datapath)
       print("2")
 
     }
 
     if(is.null(input$rawuploadpub) == TRUE){
 
-      pub.df <- readLines(here::here("data", "P.csv"))
+      pub.df <- pub
       print("3")
 
     } else{
 
       inFilepub <- input$rawuploadpub
-      pub.df <- readLines(inFilepub$datapath)
+      pub.df <- read_csv(inFilepub$datapath)
       print("3")
 
     }
 
     if(is.null(input$rawuploadwos) == TRUE){
 
-      wos.df <- readLines(here::here("data", "W.csv"))
+      wos.df <- wos
       print("4")
 
     } else{
 
       inFilewos <- input$rawuploadwos
-      wos.df <- readLines(inFilewos$datapath)
+      wos.df <- read_csv(inFilewos$datapath)
       print("4")
 
     }
 
     if(is.null(input$rawuploadsco) == TRUE){
 
-      sco.df <- readLines(here::here("data", "S.csv"))
+      sco.df <- sco
       print("5")
 
     } else{
 
       inFilesco <- input$rawuploadsco
-      sco.df <- readLines(inFilesco$datapath)
+      sco.df <- read_csv(inFilesco$datapath)
       print("5")
 
     }
