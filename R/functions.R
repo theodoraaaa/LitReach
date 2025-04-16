@@ -16,10 +16,6 @@ pub <- load(primary.path)
 wos <- load(primary.path)
 sco <- load(primary.path)
 
-world <- world %>%
-  mutate(country = case_when(country == "U.K. of Great Britain and Northern Ireland" ~ "United Kingdom",
-                             TRUE ~ country))
-
 countrylist <- country %>%
   pull(country) #A list of countries created form the shape file being used to create the interactive map
 
