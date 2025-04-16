@@ -354,15 +354,6 @@ server <- function(input, output) {
 
 observeEvent(input$tidy, {
 
-    countrylist <- readLines(here::here("data", "Country List.csv")) %>%
-      pull(country) #A list of countries created form the shape file being used to create the interactive map
-
-    statelist <- readLines(here::here("data", "State List.csv")) %>%
-      pull(state) #A list of all 50 US states. this is needed because some author affiliations only go as far as state
-
-    countrystatelist <- c(countrylist, statelist) #Combined country and state list
-
-
     inFilepri <- input$rawuploadpri
     pri.df <- readLines(inFilepri$datapath)
     print("1")

@@ -1,7 +1,7 @@
-world.path <- fs::path_package("extdata", "world-administrative-boundaries.shp", package = "sf")
-country.path <- fs::path_package("extdata", "Country List.csv", package = "readr")
-state.path <- fs::path_package("extdata", "State List.csv", package = "readr")
-primary.path <- fs::path_package("extdata", "Primary Template.csv", package = "readr")
+world.path <- fs::path_package("extdata", "World.rda", package = "LitReach")
+country.path <- fs::path_package("extdata", "Country List.rda", package = "LitReach")
+state.path <- fs::path_package("extdata", "State List.rda", package = "LitReach")
+primary.path <- fs::path_package("extdata", "Primary Template.rda", package = "LitReach")
 
 world <- load(world.path) #Load the world shapefile
 country <- load(country.path)
