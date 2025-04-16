@@ -6,7 +6,9 @@
 #' LitReach()
 #' @export
 LitReach <- function() {
-  source(here::here("R", "app.R"))
+  app.path <- fs::path_package("R", "app.R", package = "LitReach")
+
+  source(app.path)
   addResourcePath("assets", system.file("www", package = "LitReach"))
   shinyApp(ui = ui, server = server, options = list(launch.browser = TRUE))
 }

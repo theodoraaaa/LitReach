@@ -37,7 +37,6 @@ library(igraph)
 library(ggraph)
 library(tidygraph)
 library(plotly)
-library(plot3D)
 library(htmlwidgets)
 
 library(conflicted)
