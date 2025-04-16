@@ -3,20 +3,25 @@ country.path <- fs::path_package("extdata", "Country List.csv", package = "readr
 state.path <- fs::path_package("extdata", "State List.csv", package = "readr")
 primary.path <- fs::path_package("extdata", "Primary Template.csv", package = "readr")
 
-world <- st_read(world.path) %>%
+world <- load(world.path) #Load the world shapefile
+country <- load(country.path)
+state <- load(state.path)
+primary <- load(primary.path)
+
+world <- world %>%
   dplyr::select("country" = "name", geometry) %>%
   mutate(country = case_when(country == "U.K. of Great Britain and Northern Ireland" ~ "United Kingdom",
                              TRUE ~ country))
 
-countrylist <- read_csv(country.path) %>%
+countrylist <- country %>%
   pull(country) #A list of countries created form the shape file being used to create the interactive map
 
-statelist <- read_csv(state.path) %>%
+statelist <- state %>%
   pull(state) #A list of all 50 US states. this is needed because some author affiliations only go as far as state
 
 countrystatelist <- c(countrylist, statelist) #Combined country and state list
 
-primarytemp <- read_csv(primary.path)
+primarytemp <- primary
 
 textfilecreate = function(filename, name){
   if(name == "title"){
