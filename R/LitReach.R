@@ -6,7 +6,7 @@
 #' LitReach()
 #' @export
 LitReach <- function() {
-  app.path <- fs::path_package("R", "app.R", package = "LitReach")
+  app.path <- fs::path_package("extdata", "app.R", package = "LitReach")
 
   source(app.path)
   addResourcePath("assets", system.file("www", package = "LitReach"))
