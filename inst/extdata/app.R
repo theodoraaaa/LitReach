@@ -551,11 +551,11 @@ observeEvent(input$tidy, {
 
     all.data <- pri.df %>%
       bind_rows(pubmed.data.tidy) %>%
-      bind_rows(google.data.tidy) %>%
+      bind_rows(wos.data.tidy) %>%
       distinct(author, title, year, .keep_all = TRUE) %>%
       bind_rows(scopus.data.tidy) %>%
       distinct(author, title, year, .keep_all = TRUE) %>%
-      bind_rows(wos.data.tidy) %>%
+      bind_rows(google.data.tidy) %>%
       distinct(author, title, year, .keep_all = TRUE) %>% #Join each data and remove duplicates
       mutate(country = case_when(country %in% c(statelist, "US", "USA") ~ "United States of America",
                                  country %in% c("England", "Scotland", "Wales", "Northern Ireland", "UK", "United Kingdom") ~
@@ -671,7 +671,7 @@ observeEvent(input$tidy, {
 
     if(is.null(inFile)) return(NULL)
 
-    df <- readLines(inFile$datapath)
+    df <- read_csv(inFile$datapath)
 
     data1 <- df %>%
       mutate(type = case_when(type %in% c("CP", "D") ~ "CP",
