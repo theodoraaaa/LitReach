@@ -124,7 +124,7 @@ ui <- dashboardPage(
                  actionButton("Scopus", "Watch Scopus Guide", icon = icon("play-circle")),
                  actionButton("WebofScience", "Watch Web of Science Guide", icon = icon("play-circle")),
                  actionButton("PoP", "Watch Publish or Perish Guide", icon = icon("play-circle")),
-                 bsModal("PubMedVid", "Watch the PubMed Guide", "PubMed", size = "large", tags$iframe(src = systemp.file("videos/PubMed.mp4", package = package = "LitReach"), height = "900", width = "100%"), tags$body(p("PubMed:"),
+                 bsModal("PubMedVid", "Watch the PubMed Guide", "PubMed", size = "large", tags$iframe(src = system.file("videos/PubMed.mp4", package = "LitReach"), height = "900", width = "100%"), tags$body(p("PubMed:"),
                                                                                                                                                                   p("1. For your selected article, scroll down to the end of the 'Cited by' section and select 'See all Cited by articles'"),
                                                                                                                                                                   p("2. Press 'Save' and select 'All results' and 'CSV' from the drop-down menus"),
                                                                                                                                                                   p("3. Press 'Create file' and save your .csv file"))),
