@@ -124,22 +124,22 @@ ui <- dashboardPage(
                  actionButton("Scopus", "Watch Scopus Guide", icon = icon("play-circle")),
                  actionButton("WebofScience", "Watch Web of Science Guide", icon = icon("play-circle")),
                  actionButton("PoP", "Watch Publish or Perish Guide", icon = icon("play-circle")),
-                 bsModal("PubMedVid", "Watch the PubMed Guide", "PubMed", size = "large", tags$iframe(src = "PubMed.mp4", height = "900", width = "100%"), tags$body(p("PubMed:"),
+                 bsModal("PubMedVid", "Watch the PubMed Guide", "PubMed", size = "large", tags$iframe(src = "assets/PubMed.mp4", height = "900", width = "100%"), tags$body(p("PubMed:"),
                                                                                                                                                                   p("1. For your selected article, scroll down to the end of the 'Cited by' section and select 'See all Cited by articles'"),
                                                                                                                                                                   p("2. Press 'Save' and select 'All results' and 'CSV' from the drop-down menus"),
                                                                                                                                                                   p("3. Press 'Create file' and save your .csv file"))),
-                 bsModal("ScoVid", "Watch the Scopus Guide", "Scopus", size = "large", tags$iframe(src = "Scopus.mp4", height = "900", width = "100%"), tags$body(p("Scopus:"),
+                 bsModal("ScoVid", "Watch the Scopus Guide", "Scopus", size = "large", tags$iframe(src = "assets/Scopus.mp4", height = "900", width = "100%"), tags$body(p("Scopus:"),
                                                                                                                                                                   p("1. On the search page for your selected article, press on the number of citations for the article"),
                                                                                                                                                                   p("2. Check the 'Select all records' box to select all articles on the page"),
                                                                                                                                                                   p("3. Press 'Export' and select 'Excel'"),
                                                                                                                                                                   p("4. Select the first or third option to select all records and select 'Full Record' from the Record Content drop-down menu and press Export"),
                                                                                                                                                                   p("5. Save your .csv file"))),
-                 bsModal("WoSVid", "Watch the Web of Science Guide", "WebofScience", size = "large", tags$iframe(src = "Web of Science.mp4", height = "900", width = "100%"),tags$body(p("Web of Science:"),
+                 bsModal("WoSVid", "Watch the Web of Science Guide", "WebofScience", size = "large", tags$iframe(src = "assets/Web of Science.mp4", height = "900", width = "100%"),tags$body(p("Web of Science:"),
                                                                                                                                                                                        p("1. On the search page for your selected article, press on the number of citations for the article"),
                                                                                                                                                                                        p("2. Select 'All' and press 'Export' at the top of the page"),
                                                                                                                                                                                        p("3. Select 'CSV' as your method of export and ensure that both Citation information and Bibliographical information are selected and press 'Export'"),
                                                                                                                                                                                        p("4. Save your .csv file"))),
-                 bsModal("PoPVid", "Watch the Publish or Perish Guide", "PoP", size = "large", tags$iframe(src = "PoP.mp4", height = "900", width = "100%"),tags$body(p("Publish or Perish:"),
+                 bsModal("PoPVid", "Watch the Publish or Perish Guide", "PoP", size = "large", tags$iframe(src = "assets/PoP.mp4", height = "900", width = "100%"),tags$body(p("Publish or Perish:"),
                                                                                                                                                                                        p("1. Start a new Google Scholar search in Publish or Perish"),
                                                                                                                                                                                        p("2. Type in the title into the 'Title Words' field"),
                                                                                                                                                                                        p("3. Right-click on the desired paper and select 'Retrieve Citing Working in Publish or Perish'"),
@@ -463,13 +463,13 @@ observeEvent(input$tidy, {
         filter(id == ttl) %>%
         pull(PMID) #Get PubMed id
 
-      batch_pubmed_download(paste0(ID), dest_dir = here::here("data")) #Download PubMed data
+      batch_pubmed_download(paste0(ID), dest_dir = fs::path_package("extdata", package = "LitReach")) #Download PubMed data
 
-      readLines(here::here("data", "easyPubMed_data_01.txt")) %>% #Read in the new file
+      readLines(fs::path_package("extdata", "easyPubMed_data_01.txt", package = "LitReach")) %>% #Read in the new file
         str_replace_all("\\&[[:graph:]]*\\;", "") %>% #Remove non alphanumeric characters
-        writeLines(here::here("Data", "pubfile.txt")) #Write the file back out to avoid it ever being in dataframe format which caused issues with special characters
+        writeLines(fs::path_package("extdata", "pubfile.txt", package = "LitReach")) #Write the file back out to avoid it ever being in dataframe format which caused issues with special characters
 
-      pubmed.info.list <- articles_to_list(here::here("data", "pubfile.txt")) #Convert PubMed data to list
+      pubmed.info.list <- articles_to_list(fs::path_package("extdata", "pubfile.txt", package = "LitReach")) #Convert PubMed data to list
 
       if(length(pubmed.info.list) > 1) stop() #If there is more then one citation in the list stop the loop
       if(is.null(article_to_df(pubmed.info.list))) { #If there is no citation in the list
@@ -495,8 +495,8 @@ observeEvent(input$tidy, {
       all.articles <- all.articles %>%
         bind_rows(article.df) #Join data all references from one citation
 
-      file.remove(here::here("data", "easyPubMed_data_01.txt")) #Remove any files created
-      file.remove(here::here("data", "pubfile.txt")) #Remove any files created
+      file.remove(fs::path_package("extdata", "easyPubMed_data_01.txt", package = "LitReach")) #Remove any files created
+      file.remove(fs::path_package("extdata", "pubfile.txt", package = "LitReach")) #Remove any files created
 
     }
 

@@ -30,7 +30,7 @@ countrystatelist <- c(countrylist, statelist) #Combined country and state list
 
 textfilecreate = function(filename, name){
   if(name == "title"){
-    myfile = paste0(name, ".txt")
+    myfile = paste0(fs::path_package("extdata", package = "LitReach"), "/", name, ".txt")
     write.table(filename, file = myfile, sep = "", row.names = FALSE,
                 col.names = FALSE, quote = FALSE, append = FALSE)
   }
@@ -40,9 +40,7 @@ termscreate <- function(data){
 
   walk2(data, names(data), textfilecreate)
 
-  file.rename(from = here::here("title.txt"), to = here::here("data", "title.txt"))
-
-  title.text <- readLines(here::here("data", "title.txt"))
+  title.text <- readLines(fs::path_package("extdata", "title.txt", package = "LitReach"))
 
   docs <- Corpus(VectorSource(title.text))
   docs <- tm_map(docs, toSpace, "/")
@@ -60,8 +58,6 @@ termscreate <- function(data){
   term.matrix <- as.matrix(term.list)
   term.count <- sort(rowSums(term.matrix),decreasing=TRUE)
   terms <- data.frame(word = names(term.count),freq=term.count) %>%
-    mutate(word = case_when(word == "campylobacter" ~ "campylo.",
-                            TRUE ~ word)) %>%
     slice_head(n = 200)
 
   return(terms)
