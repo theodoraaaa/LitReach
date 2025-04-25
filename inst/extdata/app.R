@@ -469,7 +469,7 @@ observeEvent(input$tidy, {
 
       readLines(fs::path_package("extdata", "easyPubMed_data_01.txt", package = "LitReach")) %>% #Read in the new file
         str_replace_all("\\&[[:graph:]]*\\;", "") %>% #Remove non alphanumeric characters
-        writeLines(fs::path_package("extdata", "pubfile.txt", package = "LitReach")) #Write the file back out to avoid it ever being in dataframe format which caused issues with special characters
+      writeLines(paste0(fs::path_package("extdata", package = "LitReach"), "/", "pubfile.txt")) #Write the file back out to avoid it ever being in dataframe format which caused issues with special characters
 
       pubmed.info.list <- articles_to_list(fs::path_package("extdata", "pubfile.txt", package = "LitReach")) #Convert PubMed data to list
 
